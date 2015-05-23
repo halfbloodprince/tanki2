@@ -1,0 +1,69 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{ucs}
+\usepackage[polish]{babel}
+\usepackage{geometry}
+
+\title{Tanki\\
+Dokumentacja wstępna }
+
+\author{
+Paweł Szewczyk
+\and
+Michał Bloch
+}
+
+
+\geometry{a4paper}
+
+\begin{document}
+\maketitle
+
+\section{Zasady gry}
+\emph{Tanki} to turowa gra artyleryjska, w której gracze mają za cel zniszczyć przeciwników przy użyciu kontrolowanych przez siebie czołgów.
+\subsection{Przebieg rozgrywki}
+Gracze naprzemiennie wykonują swoje tury.
+W każdej turze gracz dokonuje jednego strzału jednym ze swoich czołgów, dobierając odpowiedni kąt i siłę. Na tor lotu wystrzelonego pocisku (lub pocisków) mogą mieć wpływ warunki panujące na planszy (siła i kierunek wiatru, grawitacja). Pocisk który trafia w czołg powoduje zmniejszenie jego \emph{punktów życia}. Zmniejszenie punktów życia do zera oznacza wyeliminowanie czołgu.
+\subsection{Zakończenie gry}
+Wygrywa gracz, który wyeliminuje wszystkie czołgi przeciwnika. Możliwy jest również remis, kiedy w jednej turze zostaną wyeliminowane wszystkie obecne na planszy czołgi.
+
+\section{Przewidziana funkcjonalność}
+\subsection{Podstawowe elementy}
+Podstawowa wersja gry pozwala na rozegranie gry na podanych zasadach, również przez sieć. Składają się na to:
+\begin{itemize}
+\item celowanie
+\item implementacja podstawowej fizyki pocisku (grawitacja, wiatr)
+\item wykrywanie kolizji pocisku z czołgiem
+\item zniszczenia czołgów, ich eliminacja z gry
+\item komunikacja sieciowa z przeciwnikiem
+\end{itemize}
+
+\subsection{Dodatkowe elementy}
+Dodatkowa funkcjonalność obejmuje szereg usprawnień i urozmaiceń rozgrywki:
+\begin{itemize}
+\item generowanie losowej planszy
+\item destrukcja planszy
+\item obsługa wielu rodzajów broni
+\item możliwość poruszania się czołgiem
+\item dodatkowe elementy fizyki pocisku (np. opór powietrza)
+\item różne tryby rozgrywki
+\end{itemize}
+Dodawanie nowych funkcjonalności wiąże się często z potrzebą dodatkowej komunikacji sieciowej (np generowanie losowej planszy wymaga jej przesyłania).
+
+\section{Podział pracy}
+
+Michał Bloch:
+\begin{itemize}
+\item komunikacja sieciowa
+\item interakcja z graczem
+\item różne rodzaje broni i tryby rozgrywki
+\end{itemize}
+Paweł Szewczyk:
+\begin{itemize}
+\item rysowanie mapy i efektów graficznych
+\item fizyka pocisku i otoczenia
+\end{itemize}
+
+\end{document}
