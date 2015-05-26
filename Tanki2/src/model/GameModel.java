@@ -8,7 +8,7 @@ public class GameModel {
 
 	public GameModel(GameView view) {
 		this.view = view;
-		timer = new GameTimer(10);
+		timer = new GameTimer(60);
 		timer.scheduleRenderTask(view.getCanvas().getRenderTask());
 	}
 }

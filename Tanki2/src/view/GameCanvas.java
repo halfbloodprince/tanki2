@@ -3,6 +3,7 @@ package view;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +23,7 @@ public class GameCanvas extends Canvas {
 	}
 	
 	private List<Sprite> sprites;
+	private Image bufferImage;
 	RenderTask render;
 	
 	public GameCanvas(int w, int h) {
@@ -30,17 +32,39 @@ public class GameCanvas extends Canvas {
 		render = new RenderTask(this);
 	}
 	
-	public void paint (Graphics g)
-	{
+	public void resetBuffer() {
+		if (bufferImage != null) {
+			bufferImage.flush();
+			bufferImage = null;
+		}
+		
+		bufferImage = createImage(getWidth(), getHeight());
+	}
+	
+	public void fillBuffer() {
+		Graphics g = bufferImage.getGraphics();
+
+		bufferImage.flush();
 		g.setColor(Color.white);
 		g.fillRect (0, 0, getWidth(), getHeight());
 		
 		for(Iterator<Sprite> i = sprites.iterator(); i.hasNext(); ) {
 		    Sprite item = i.next();
 		    
-		    getGraphics().drawImage(item.getImg(), item.getX(), item.getY(), null);
-		    System.out.println("drawing!");
+		    g.drawImage(item.getImg(), item.getX(), item.getY(), null);
+		    item.setPosition(item.getX()+1, item.getY()+1);
 		}
+	}
+	
+	public void update(Graphics g) {
+		paint(g);
+	}
+	
+	public void paint (Graphics g)
+	{
+		resetBuffer();
+		fillBuffer();
+		getGraphics().drawImage(bufferImage, 0, 0, null);
 	}
 	
 	public void addSprite(Sprite s) {

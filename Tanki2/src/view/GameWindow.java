@@ -1,6 +1,8 @@
 package view;
 
 import java.awt.Frame;
+import java.awt.Graphics;
+
 import common.Constants;
 
 public class GameWindow extends Frame {
