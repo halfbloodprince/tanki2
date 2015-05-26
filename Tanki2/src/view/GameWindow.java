@@ -15,5 +15,6 @@ public class GameWindow extends Frame {
 		height = h;
 
 	    setSize(width, height);
+	    setResizable(false);
 	}
 }
