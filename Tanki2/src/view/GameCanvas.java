@@ -26,12 +26,20 @@ public class GameCanvas extends Canvas {
 	private Image bufferImage;
 	RenderTask render;
 	
+	/**
+	 * Create new canvas
+	 * @param w Width of the canvas
+	 * @param h Height of the canvas
+	 */
 	public GameCanvas(int w, int h) {
 		this.setSize(w, h);
 		sprites = new ArrayList<Sprite>();
 		render = new RenderTask(this);
 	}
 	
+	/**
+	 * Flush frame buffer and recreate it
+	 */
 	public void resetBuffer() {
 		if (bufferImage != null) {
 			bufferImage.flush();
@@ -41,6 +49,9 @@ public class GameCanvas extends Canvas {
 		bufferImage = createImage(getWidth(), getHeight());
 	}
 	
+	/**
+	 * Draw all elements on frame buffer
+	 */
 	public void fillBuffer() {
 		Graphics g = bufferImage.getGraphics();
 
@@ -56,10 +67,16 @@ public class GameCanvas extends Canvas {
 		}
 	}
 	
+	/**
+	 * Update this canvas, repaint it, but without cleaning itself (buffer will handle it)
+	 */
 	public void update(Graphics g) {
 		paint(g);
 	}
 	
+	/**
+	 * Paint everything to be painted using frame buffer
+	 */
 	public void paint (Graphics g)
 	{
 		resetBuffer();
@@ -67,10 +84,18 @@ public class GameCanvas extends Canvas {
 		getGraphics().drawImage(bufferImage, 0, 0, null);
 	}
 	
+	/**
+	 * Add another sprite to this canvas, will be painted always
+	 * @param s Sprite to be added
+	 */
 	public void addSprite(Sprite s) {
 		sprites.add(s);
 	}
 	
+	/**
+	 * Get task which do the rendering of this canvas
+	 * @return Rendering task
+	 */
 	public TimerTask getRenderTask() {
 		return render;
 	}

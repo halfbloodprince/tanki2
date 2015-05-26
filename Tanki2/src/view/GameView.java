@@ -14,6 +14,9 @@ public final class GameView {
 	private GameCanvas canvas;
 
 	public class BasicWindowMonitor extends WindowAdapter {
+		/**
+		 * Closing callback of the main window
+		 */
 		  public void windowClosing(WindowEvent e) {
 		    Window w = e.getWindow();
 		    w.setVisible(false);
@@ -22,6 +25,10 @@ public final class GameView {
 		  }
 	}
 	
+	/**
+	 * Create new game view
+	 * @throws IOException Can be thrown when some files cannot be opened
+	 */
 	public GameView() throws IOException {
 		window = new GameWindow(Constants.DefaultWindowWidth, Constants.DefaultWindowHeight);
 		window.setVisible(true);
@@ -33,6 +40,9 @@ public final class GameView {
 		canvas.addSprite(new Sprite("media/img/tank.png"));
 	}
 	
+	/**
+	 * @return Rendering canvas associated with this view
+	 */
 	public GameCanvas getCanvas() {
 		return canvas;
 	}
