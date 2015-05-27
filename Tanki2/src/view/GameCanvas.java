@@ -63,7 +63,6 @@ public class GameCanvas extends Canvas {
 		    Sprite item = i.next();
 		    
 		    g.drawImage(item.getImg(), item.getX(), item.getY(), null);
-		    item.setPosition(item.getX()+1, item.getY()+1);
 		}
 	}
 	

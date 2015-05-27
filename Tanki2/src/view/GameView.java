@@ -13,7 +13,7 @@ import view.GameCanvas;
 public final class GameView {
 	private GameWindow window;
 	private GameCanvas canvas;
-	private GameTimer render_timer;
+	private GameTimer renderTimer;
 
 	public class BasicWindowMonitor extends WindowAdapter {
 		/**
@@ -38,10 +38,8 @@ public final class GameView {
 		
 		canvas = new GameCanvas(window.width, window.height);
 		window.add(canvas);
-		
-		canvas.addSprite(new Sprite("media/img/tank.png"));
-		
-		render_timer = new GameTimer(Constants.FPS);
+
+		renderTimer = new GameTimer(Constants.FPS);
 	}
 	
 	/**
@@ -55,6 +53,6 @@ public final class GameView {
 	 * Start rendering canvas
 	 */
 	public void enableCanvas() {
-		render_timer.scheduleRenderTask(canvas.getRenderTask());
+		renderTimer.scheduleRenderTask(canvas.getRenderTask());
 	}
 }
