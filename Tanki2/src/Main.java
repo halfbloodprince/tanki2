@@ -15,6 +15,9 @@ public final class Main {
 			final GameView view = new GameView();
 			final GameModel model = new GameModel();
 			final GameController controller = new GameController(model, view);
+			final Thread controllerThread = new Thread(controller);
+			
+			controllerThread.start();
 		}
 		
 		catch (Exception e) {
