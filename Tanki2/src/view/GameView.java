@@ -7,11 +7,13 @@ import java.io.IOException;
 
 import view.GameWindow;
 import common.Constants;
+import controller.GameTimer;
 import view.GameCanvas;
 
 public final class GameView {
 	private GameWindow window;
 	private GameCanvas canvas;
+	private GameTimer render_timer;
 
 	public class BasicWindowMonitor extends WindowAdapter {
 		/**
@@ -38,6 +40,8 @@ public final class GameView {
 		window.add(canvas);
 		
 		canvas.addSprite(new Sprite("media/img/tank.png"));
+		
+		render_timer = new GameTimer(Constants.FPS);
 	}
 	
 	/**
@@ -45,5 +49,12 @@ public final class GameView {
 	 */
 	public GameCanvas getCanvas() {
 		return canvas;
+	}
+	
+	/**
+	 * Start rendering canvas
+	 */
+	public void enableCanvas() {
+		render_timer.scheduleRenderTask(canvas.getRenderTask());
 	}
 }

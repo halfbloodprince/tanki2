@@ -1,3 +1,4 @@
+import controller.GameController;
 import model.GameModel;
 import view.GameView;
 
@@ -12,7 +13,8 @@ public final class Main {
 
 		try {
 			final GameView view = new GameView();
-			final GameModel model = new GameModel(view);
+			final GameModel model = new GameModel();
+			final GameController controller = new GameController(model, view);
 		}
 		
 		catch (Exception e) {
