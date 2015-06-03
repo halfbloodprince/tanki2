@@ -68,6 +68,7 @@ public class GameCanvas extends Canvas {
 		g.fillRect (0, 0, getWidth(), getHeight());
 		
 		if (map != null) {
+			map.updateImg();
 			map.paint(g);
 		}
 		

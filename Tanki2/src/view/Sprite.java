@@ -42,7 +42,7 @@ public class Sprite {
 	 * @return Y position of this sprite
 	 */
 	public int getY() {
-		return y;
+		return y - img.getHeight();
 	}
 	
 	/**

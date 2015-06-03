@@ -24,13 +24,14 @@ public class GameController implements Runnable {
 		view.enableCanvas();
 		DirtMap map = new DirtMap(view.getCanvas().getWidth(), view.getCanvas().getHeight());
 		model.setGrid(map);
+		view.getCanvas().setMap(map);
 	}
 	
 	public void run() {
 		startGame();
 		
 		try {
-			Tank tank = model.spawnTank(600, 400);
+			Tank tank = model.spawnTank(600);
 			view.getCanvas().addSprite(tank);
 			
 			Shot shot = model.shoot(tank);

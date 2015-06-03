@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.Random;
 
 public class GameModel {
 	List<Tank> tanks;
@@ -26,8 +27,26 @@ public class GameModel {
 		return tank;
 	}
 	
+	public Tank spawnTank(int x) throws Exception {
+		return spawnTank(x, grid.getHeight() - grid.getSurfaceHeight(x));
+	}
+	
 	public void setGrid(Grid grid) {
 		this.grid = grid;
+		Random gen = new Random();
+		int div = 0;
+		int h = 2;
+		int s = gen.nextInt(grid.getHeight());
+		for (int i = 0; i < grid.getWidth(); ++i) {
+			div = h - gen.nextInt(2*h-1) - 1;
+			s += div;
+			System.out.println("div: " + div);
+			s = Math.min(s, grid.getHeight() - 2);
+			//System.out.println("s: 
+			for (int j = 1; j < s; ++j) {
+				grid.setTile(i, grid.getHeight() - j);
+			}
+		}
 	}
 	
 	/**
