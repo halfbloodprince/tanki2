@@ -10,8 +10,8 @@ public class Tank extends Sprite {
 
 	public Tank() throws IOException{
 		super(Constants.DefaultTankImage);
-		angle = 0;
-		power = 1.0;
+		angle = -45;
+		power = 3.0;
 	}
 	
 	/**

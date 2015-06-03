@@ -14,10 +14,10 @@ public class SimpleShot extends Shot{
 	}
 	
 	public double getBulletX(int t) {
-		return xVel * t;
+		return startX - xVel * t;
 	}
 
 	public double getBulletY(int t) {
-		return  yVel * t - Environment.gravity * t * t;
+		return startY + yVel * t + Environment.gravity * t * t;
 	}
 }

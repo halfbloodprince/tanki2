@@ -25,6 +25,11 @@ public class GameModel {
 		return tank;
 	}
 	
+	public int calcShotDuration(Shot shot) {
+		/* TODO */
+		return 1000;
+	}
+	
 	public Shot shoot(Tank tank) {
 		Shot shot = new SimpleShot(tank.getX(), tank.getY(), tank.getPower(), tank.getAngle());
 		return shot;

@@ -1,5 +1,5 @@
 package common;
 
 public class Environment {
-	public static double gravity = 10.0;
+	public static double gravity = 0.01;
 }

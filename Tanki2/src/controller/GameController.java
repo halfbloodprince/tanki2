@@ -1,7 +1,9 @@
 package controller;
 
 import view.GameView;
+import view.ShotAnimation;
 import model.GameModel;
+import model.Shot;
 import model.Tank;
 
 public class GameController implements Runnable {
@@ -25,8 +27,13 @@ public class GameController implements Runnable {
 		startGame();
 		
 		try {
-			Tank tank = model.spawnTank(100, 100);
+			Tank tank = model.spawnTank(600, 400);
 			view.getCanvas().addSprite(tank);
+			
+			Shot shot = model.shoot(tank);
+			ShotAnimation anim = new ShotAnimation(shot);
+			anim.setDuration(model.calcShotDuration(shot));
+			view.getCanvas().addAnimation(anim);
 		}
 	
 		catch (Exception e) {
