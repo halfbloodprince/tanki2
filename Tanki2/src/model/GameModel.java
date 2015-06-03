@@ -4,6 +4,7 @@ import java.util.List;
 
 public class GameModel {
 	List<Tank> tanks;
+	Grid grid;
 
 	/**
 	 * Create new game model
@@ -25,9 +26,24 @@ public class GameModel {
 		return tank;
 	}
 	
+	public void setGrid(Grid grid) {
+		this.grid = grid;
+	}
+	
+	/**
+	 * Calculate duration of shot (i.e. bullet collision point)
+	 * @param shot Shot to be considered
+	 * @return Moment of collision with something
+	 */
 	public int calcShotDuration(Shot shot) {
-		/* TODO */
-		return 1000;
+		int t = 0;
+		while (true) {
+			if (grid.occupied((int)shot.getBulletX(t), (int)shot.getBulletY(t))) {
+				System.out.println("hit point: " + shot.getBulletX(t) + ", " + shot.getBulletY(t));
+				return t;
+			}
+			t++;
+		}
 	}
 	
 	public Shot shoot(Tank tank) {

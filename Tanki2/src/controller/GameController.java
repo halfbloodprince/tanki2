@@ -1,5 +1,6 @@
 package controller;
 
+import view.DirtMap;
 import view.GameView;
 import view.ShotAnimation;
 import model.GameModel;
@@ -21,6 +22,8 @@ public class GameController implements Runnable {
 	 */
 	private void startGame() {
 		view.enableCanvas();
+		DirtMap map = new DirtMap(view.getCanvas().getWidth(), view.getCanvas().getHeight());
+		model.setGrid(map);
 	}
 	
 	public void run() {

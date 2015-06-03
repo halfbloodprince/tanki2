@@ -19,6 +19,5 @@ public class ShotAnimation extends Animation {
 		int t = (int)(System.currentTimeMillis() - begin);
 		t *= Constants.TimeScale;
 		g.drawImage(bullet.getImg(), (int)shot.getBulletX(t), (int)shot.getBulletY(t), null);
-		System.out.println("Animation now: " + shot.getBulletX(t) + ", " + shot.getBulletY(t));
 	}
 }

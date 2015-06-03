@@ -25,11 +25,11 @@ public class GameCanvas extends Canvas {
 	}
 	
 	private List<Sprite> sprites;
-	
 	/** Animations to draw one after another */
 	private Queue<Animation> animationsQ;
 	private Animation animation;
 	private Image bufferImage;
+	private DirtMap map;
 	RenderTask render;
 	
 	/**
@@ -66,6 +66,10 @@ public class GameCanvas extends Canvas {
 		bufferImage.flush();
 		g.setColor(Color.gray);
 		g.fillRect (0, 0, getWidth(), getHeight());
+		
+		if (map != null) {
+			map.paint(g);
+		}
 		
 		for(Iterator<Sprite> i = sprites.iterator(); i.hasNext(); ) {
 		    Sprite item = i.next();
@@ -123,5 +127,9 @@ public class GameCanvas extends Canvas {
 	 */
 	public void addAnimation(Animation a) {
 		animationsQ.add(a);
+	}
+	
+	public void setMap(DirtMap m) {
+		map = m;
 	}
 }

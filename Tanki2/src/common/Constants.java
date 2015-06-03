@@ -7,7 +7,7 @@ public final class Constants {
 	public static String DefaultTankImage = "media/img/tank.png";
 	public static String BulletImage = "media/img/bullet.png";
 	public static int FPS = 60;
-	public static double TimeScale = 0.1;
+	public static double TimeScale = 0.3;
 
 	public static String getGameName() {
 		/* TODO information about game version */
