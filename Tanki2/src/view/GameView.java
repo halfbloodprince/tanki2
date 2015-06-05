@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import model.Tank;
 import view.GameWindow;
 import view.GameCanvas;
 import common.Constants;
@@ -26,8 +27,7 @@ public final class GameView {
 	GameController controller;
 	KeyboardHandler keyboard;
 	EventHandler handler;
-	
-	double power, angle; // fixme bind to each tank
+	private Tank focusedTank;
 	
 	public void SetController (GameController c) { controller = c; }
 
@@ -44,23 +44,22 @@ public final class GameView {
 		    System.exit(0);
 		  }
 	}
-
+/*
 	public void AddPower (double amount) {
-		power += amount;
+		focusedTank.power += amount;
 		System.out.format("Power is now %f\n", power);
 	}
 
 	public void AddAngle (double amount) {
-		angle += amount;
+		focusedTank.angle += amount;
 		System.out.format("Angle is now %f\n", angle);
 	}
-	
+	*/
 	/**
 	 * Create new game view
 	 * @throws IOException Can be thrown when some files cannot be opened
 	 */
 	public GameView() throws IOException {
-		power = 3.0; angle = -0.9;
 		keyboard = new KeyboardHandler (this);
 
 		window = new GameWindow(Constants.DefaultWindowWidth, Constants.DefaultWindowHeight);
@@ -94,10 +93,10 @@ public final class GameView {
 	}
 
 	public void Shoot () {
-		controller.AddEvent(new ShootEvent (0, 0, angle, power));
+		controller.AddEvent(new ShootEvent (0, 0, focusedTank.getAngle(), focusedTank.getPower()));
 	}
 	public void Shoot2 () {
-		controller.AddEvent(new ShootEvent (0, 1, angle, power));
+		controller.AddEvent(new ShootEvent (0, 1, focusedTank.getAngle(), focusedTank.getPower()));
 	}
 
 	/**
@@ -105,5 +104,17 @@ public final class GameView {
 	 */
 	public void enableCanvas() {
 		renderTimer.scheduleRenderTask(canvas.getRenderTask());
+	}
+	
+	/**
+	 * Set tank to be marked as focused
+	 * @param tank
+	 */
+	public void setFocusedTank(Tank tank) {
+		focusedTank = tank;
+	}
+	
+	public Tank getFocusedTank() {
+		return focusedTank;
 	}
 }

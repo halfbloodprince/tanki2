@@ -45,6 +45,9 @@ public class GameController implements Runnable {
 		try {
 			test_tank = model.spawnTank(600);
 			view.getCanvas().addSprite(new TankSprite(test_tank));
+
+			/* TODO focusing proper tank */
+			view.setFocusedTank(test_tank);
 		}
 
 		catch (Exception e) {

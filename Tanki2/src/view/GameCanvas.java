@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TimerTask;
 
+import model.Tank;
+
 public class GameCanvas extends Canvas {
 	public class RenderTask extends TimerTask{
 		private Canvas canvas;
@@ -26,6 +28,7 @@ public class GameCanvas extends Canvas {
 	/** Animations to draw one after another */
 	private Image bufferImage;
 	private DirtMap map;
+	private AimArrow arrow;
 	RenderTask render;
 	
 	/**

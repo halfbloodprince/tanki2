@@ -12,10 +12,13 @@ public class Tank {
 	
 	/// position co-ordinates
 	private int x, y;
+	
+	private double angle, power;
 
 	public Tank() {
 		tankID = currentTankID++;
 		System.out.format("created tank with id %d", tankID);
+		power = 10.0; angle = -0.9;
 	}
 
 	/**
@@ -37,6 +40,14 @@ public class Tank {
 	 * @param y y
 	 */
 	public void setPosition (int xx, int yy) { x = xx; y = yy; }
+	
+	public void addAngle(double amount) {
+		angle += amount;
+	}
+	
+	public void addPower(double amount) {
+		power += amount;
+	}
 
 	/**
 	 * Make a shot with current weapon
@@ -51,5 +62,13 @@ public class Tank {
 			ret.add (new SimpleShot (x, y, power, angle + 0.2));
 		}
 		return ret;	
+	}
+
+	public double getAngle() {
+		return angle;
+	}
+	
+	public double getPower() {
+		return power;
 	}
 }
