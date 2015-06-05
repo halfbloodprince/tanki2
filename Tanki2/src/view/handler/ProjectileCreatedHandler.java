@@ -17,7 +17,7 @@ public class ProjectileCreatedHandler implements GenericHandler {
 		ProjectileCreatedEvent event = (ProjectileCreatedEvent) e;
 		try {
 			ShotAnimation anim = new ShotAnimation(event.shot);
-			anim.setDuration(150); // find a better way to animate shots
+			anim.setDuration(275); // find a better way to animate shots
 			view.getCanvas().addAnimation(anim);
 		}
 		catch (Exception ex)
