@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Tank {
 
 	/// used to make sure assigned tank IDs are unique
@@ -39,8 +41,15 @@ public class Tank {
 	/**
 	 * Make a shot with current weapon
 	 */
-	public Shot shoot (int weaponID, double power, double angle) {
-		// todo: return array of Shot for 3-shot etc.
-		return new SimpleShot (x, y, power, angle);
+	public ArrayList <Shot> shoot (int weaponID, double power, double angle) {
+		ArrayList <Shot> ret = new ArrayList <Shot> ();
+		if (weaponID == 0) { // fixme make into real customised weapons
+			ret.add (new SimpleShot (x, y, power, angle));
+		} else {
+			ret.add (new SimpleShot (x, y, power, angle - 0.2));
+			ret.add (new SimpleShot (x, y, power * 1.1, angle));
+			ret.add (new SimpleShot (x, y, power, angle + 0.2));
+		}
+		return ret;	
 	}
 }

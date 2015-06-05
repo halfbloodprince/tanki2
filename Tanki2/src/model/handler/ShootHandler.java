@@ -2,9 +2,11 @@ package model.handler;
 
 import model.GameModel;
 import model.Tank;
+import model.Shot;
 import controller.GenericHandler;
 import controller.event.GenericEvent;
 import controller.event.ShootEvent;
+import java.util.ArrayList;
 
 public class ShootHandler implements GenericHandler {
 	private GameModel model;
@@ -19,7 +21,7 @@ public class ShootHandler implements GenericHandler {
 		Tank tank = model.getTank(event.tankID);
 		if (tank == null) return;
 
-		// todo: use an array of bullets (for multishot)
-		model.addProjectile(tank.shoot(event.weaponID, event.power, event.angle));
+		ArrayList <Shot> shots = tank.shoot(event.weaponID, event.power, event.angle);
+		for (Shot shot : shots) model.addProjectile(shot);
 	}
 }
