@@ -37,8 +37,11 @@ public class AimArrow extends Sprite{
 			trans.setToTranslation(getX(), getY());
 			trans.rotate(tank.getAngle());
 			trans.translate(0, -img.getHeight()/2);
-			trans.scale(tank.getPower(), 1.0);
-			g2d.drawImage(img, trans, null);
+			//trans.scale(tank.getPower(), 1.0);
+			g2d.setTransform(trans);
+			int w = (int) (tank.getPower() * img.getWidth());
+			g2d.drawImage(img, 0, 0, w, img.getHeight(),
+							img.getWidth() - w, 0, img.getWidth(), img.getHeight(), null);
 		}
 	}
 }
