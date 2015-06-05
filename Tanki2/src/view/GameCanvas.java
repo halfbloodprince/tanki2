@@ -7,9 +7,7 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Queue;
 import java.util.TimerTask;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameCanvas extends Canvas {
 	public class RenderTask extends TimerTask{
@@ -26,8 +24,6 @@ public class GameCanvas extends Canvas {
 	
 	private List<Sprite> sprites;
 	/** Animations to draw one after another */
-	private Queue<Animation> animationsQ;
-	private Animation animation;
 	private Image bufferImage;
 	private DirtMap map;
 	RenderTask render;
@@ -41,8 +37,6 @@ public class GameCanvas extends Canvas {
 		this.setSize(w, h);
 		sprites = new ArrayList<Sprite>();
 		render = new RenderTask(this);
-		animationsQ = new LinkedBlockingQueue<Animation>();
-		animation = null;
 	}
 	
 	/**
@@ -76,23 +70,12 @@ public class GameCanvas extends Canvas {
 		    Sprite item = i.next();
 		    g.drawImage(item.getImg(), item.getX(), item.getY(), null);
 		}
-		
-		if (animation != null) {
-			animation.paint(g);
-		}
 	}
-	
+
 	/**
 	 * Update this canvas, repaint it, but without cleaning itself (buffer will handle it)
 	 */
 	public void update(Graphics g) {
-		if (animation == null || animation.done()) {
-			animation = animationsQ.poll();
-			if (animation != null) {
-				animation.start();
-			}
-		}
-		
 		paint(g);
 	}
 	
@@ -120,14 +103,6 @@ public class GameCanvas extends Canvas {
 	 */
 	public TimerTask getRenderTask() {
 		return render;
-	}
-	
-	/**
-	 * Schedule animation to draw
-	 * @param a Animation
-	 */
-	public void addAnimation(Animation a) {
-		animationsQ.add(a);
 	}
 	
 	public void setMap(DirtMap m) {

@@ -1,7 +1,7 @@
 package view.handler;
 
 import view.GameView;
-import view.ShotAnimation;
+import view.ShotSprite;
 import controller.GenericHandler;
 import controller.event.GenericEvent;
 import controller.event.ProjectileCreatedEvent;
@@ -16,9 +16,7 @@ public class ProjectileCreatedHandler implements GenericHandler {
 	public void handle (GenericEvent e) {
 		ProjectileCreatedEvent event = (ProjectileCreatedEvent) e;
 		try {
-			ShotAnimation anim = new ShotAnimation(event.shot);
-			anim.setDuration(275); // find a better way to animate shots
-			view.getCanvas().addAnimation(anim);
+			view.getCanvas().addSprite(new ShotSprite(event.shot));
 		}
 		catch (Exception ex)
 		{

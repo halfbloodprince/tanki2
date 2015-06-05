@@ -2,10 +2,10 @@ package controller;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
+// todo: move to view, add separate synchronised model timer
 public class GameTimer extends Timer {
 	private int fps;
-	
+
 	/**
 	 * Create new game timer
 	 * @param fps Repainting frequency in frames per second
@@ -14,7 +14,7 @@ public class GameTimer extends Timer {
 		super();
 		this.fps = fps;
 	}
-	
+
 	/**
 	 * Add a render task to be performed on each rendering cycle
 	 * @param task Task to be added

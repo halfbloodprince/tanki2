@@ -8,7 +8,7 @@ import controller.event.ShootEvent;
 public class ShootHandler implements GenericHandler {
 	private GameView view;
 	
-	/// @param target model to inflict changes to
+	/// @param target model to inflict changes upon
 	public ShootHandler (GameView v) {
 		view = v;
 	}

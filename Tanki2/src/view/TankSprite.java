@@ -12,6 +12,13 @@ public class TankSprite extends Sprite {
 	public TankSprite (Tank t) throws IOException {
 		super (Constants.DefaultTankImage);
 		tank = t;
-		setPosition (t.getX(), t.getY());
+	}
+
+	public int getX() {
+		return tank.getX() - img.getWidth()/2;
+	}
+	
+	public int getY() {
+		return tank.getY() - img.getHeight()/2;
 	}
 }

@@ -2,19 +2,15 @@ package controller;
 
 import view.DirtMap;
 import view.GameView;
-import view.ShotAnimation;
 import view.TankSprite;
 
 import model.GameModel;
-import model.Shot;
 import model.Tank;
+import model.EventServer;
 
 import controller.event.GenericEvent;
-import controller.EventHandler;
 
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.Map;
-import java.util.HashMap;
 
 public class GameController implements Runnable {
 	GameModel model;
@@ -29,6 +25,7 @@ public class GameController implements Runnable {
 		view = gameView;
 		model.SetController (this);
 		view.SetController (this);
+		EventServer es = new EventServer (model); //fixme replace with real server
 	}
 
 	public void AddEvent (GenericEvent e)

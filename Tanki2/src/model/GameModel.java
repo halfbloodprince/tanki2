@@ -15,7 +15,7 @@ import model.handler.ShootHandler;
 
 public class GameModel {
 	Map <Integer, Tank> tanks;
-	List <Shot> projectiles;
+	ArrayList <Shot> projectiles;
 	Grid grid;
 	EventHandler handler;
 	GameController controller;
@@ -50,6 +50,20 @@ public class GameModel {
 		return tank;
 	}
 
+	public void update ()
+	{
+		ArrayList <Integer> removables = new ArrayList <Integer> ();
+		for (int i = 0; i < projectiles.size(); ++i) {
+			Shot shot = projectiles.get(i);
+			shot.move();
+			if (grid.occupied(shot.getX(), shot.getY())) removables.add(i);
+			// todo: explosion + projectileRemoved event
+		}
+		for (int i = 0; i < removables.size(); ++i) {
+			projectiles.remove (removables.get(i) - i);
+		}
+	}
+	
 	public Tank getTank (int id) {
 		return tanks.get(id);
 	}
