@@ -181,4 +181,13 @@ public class GameCanvas extends Canvas {
 		    }
 		}
 	}
+
+	public void finishShot() {
+		for (Drawable s : drawables) {
+			if (s instanceof TankSprite) {
+				((TankSprite)s).updateHP();
+				/*TODO print damage dealt */
+			}
+		}
+	}
 }

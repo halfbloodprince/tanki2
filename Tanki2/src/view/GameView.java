@@ -14,8 +14,10 @@ import common.Constants;
 import controller.EventHandler;
 import controller.GameTimer;
 import controller.GameController;
+import controller.event.ExplosionDoneEvent;
 import controller.event.ExplosionEvent;
 import controller.event.GenericEvent;
+import view.handler.ExplosionDoneHandler;
 import view.handler.ExplosionHandler;
 import view.handler.ShootHandler;
 import controller.event.ShootEvent;
@@ -86,6 +88,7 @@ public final class GameView {
 		handler.put (ShootEvent.class, new ShootHandler (this));
 		handler.put (ProjectileCreatedEvent.class, new ProjectileCreatedHandler (this));
 		handler.put (ExplosionEvent.class, new ExplosionHandler(this));
+		handler.put (ExplosionDoneEvent.class, new ExplosionDoneHandler(this));
 	}
 
 	/**
@@ -120,5 +123,10 @@ public final class GameView {
 	
 	public Tank getFocusedTank() {
 		return focusedTank;
+	}
+
+	public void scheduleExplosion(Explosion explosion) {
+		getCanvas().addAnimation(explosion);
+		controller.AddDelayedEvent(new ExplosionDoneEvent(), explosion.duration);
 	}
 }

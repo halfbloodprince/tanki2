@@ -21,8 +21,8 @@ public class ExplosionHandler implements GenericHandler{
 		try {
 			Shot shot = event.shot;
 			Explosion explosion = new Explosion(shot.getX(), shot.getY(), shot.getRadius());
-			view.getCanvas().addAnimation(explosion);
-			view.getCanvas().removeBullet(shot);					
+			view.getCanvas().removeBullet(shot);
+			view.scheduleExplosion(explosion);
 		}
 		catch (Exception ex)
 		{

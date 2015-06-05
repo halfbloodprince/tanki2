@@ -31,8 +31,6 @@ public class TankSprite extends Sprite {
 	}
 	
 	public void paint(Graphics g) {
-		/* TODO: make this update after explosion, not before */
-		updateHP();
 		if (enabled) {
 			super.paint(g);
 			g.setColor(Color.getHSBColor((float)visibleHP/300, 1.0f, 0.8f));
