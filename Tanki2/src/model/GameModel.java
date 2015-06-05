@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameModel {
@@ -12,6 +13,7 @@ public class GameModel {
 	 * @param view View on which this model should present itself
 	 */
 	public GameModel() {
+		tanks = new ArrayList <Tank> ();
 	}
 	
 	/**
@@ -24,6 +26,7 @@ public class GameModel {
 	public Tank spawnTank(int x, int y) throws Exception {
 		Tank tank = new Tank();
 		tank.setPosition(x, y);
+		tanks.add (tank);
 		return tank;
 	}
 	
@@ -31,23 +34,35 @@ public class GameModel {
 		return spawnTank(x, grid.getHeight() - grid.getSurfaceHeight(x));
 	}
 	
-	public void setGrid(Grid grid) {
-		this.grid = grid;
+	public void generateMap(Grid grid) {
+		/* TODO deterministic way to do this */
 		Random gen = new Random();
-		int div = 0;
-		int h = 2;
-		int s = gen.nextInt(grid.getHeight());
+		double div = 0;
+		double h = 0.2;
+		double up = 0.7 * grid.getHeight();
+		double down = 0.1 * grid.getHeight();
+		double s = down + gen.nextDouble() * (up - down) / 2;
+
 		for (int i = 0; i < grid.getWidth(); ++i) {
-			div = h - gen.nextInt(2*h-1) - 1;
+			div += h/2 - h * gen.nextDouble();
+			if (s <= down)
+				div = h;
+			if (s >= up)
+				div = -h;
+
 			s += div;
-			System.out.println("div: " + div);
-			s = Math.min(s, grid.getHeight() - 2);
-			//System.out.println("s: 
+
 			for (int j = 1; j < s; ++j) {
 				grid.setTile(i, grid.getHeight() - j);
 			}
 		}
 	}
+	
+	public void setGrid(Grid grid) {
+		this.grid = grid;
+		generateMap(grid);
+	}
+	
 	
 	/**
 	 * Calculate duration of shot (i.e. bullet collision point)

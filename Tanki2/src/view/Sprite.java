@@ -35,7 +35,7 @@ public class Sprite {
 	 * @return X position of this sprite
 	 */
 	public int getX() {
-		return x;
+		return x - img.getWidth()/2;
 	}
 	
 	/**
