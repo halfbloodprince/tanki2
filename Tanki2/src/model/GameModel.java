@@ -1,20 +1,31 @@
 package model;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Random;
 
+import controller.EventHandler;
+import controller.event.GenericEvent;
+import controller.event.ShootEvent;
+import model.handler.ShootHandler;
+
 public class GameModel {
-	List<Tank> tanks;
+	Map <Integer, Tank> tanks;
 	Grid grid;
+	EventHandler handler;
 
 	/**
 	 * Create new game model
 	 * @param view View on which this model should present itself
 	 */
-	public GameModel() {
-		tanks = new ArrayList <Tank> ();
+	public GameModel()
+	{
+		tanks = new HashMap <Integer, Tank> ();
+		handler = new EventHandler ();
+		handler.put (ShootEvent.class, new ShootHandler (this));
 	}
+
+	public void handle (GenericEvent e) { handler.handle(e); }
 	
 	/**
 	 * Create a tank and put it on the battlefield
@@ -24,14 +35,18 @@ public class GameModel {
 	 * @throws Exception
 	 */
 	public Tank spawnTank(int x, int y) throws Exception {
-		Tank tank = new Tank();
+		Tank tank = new Tank ();
 		tank.setPosition(x, y);
-		tanks.add (tank);
+		tanks.put (tank.getID(), tank);
 		return tank;
 	}
-	
+
+	public Tank getTank (int id) {
+		return tanks.get(id);
+	}
+
 	public Tank spawnTank(int x) throws Exception {
-		return spawnTank(x, grid.getHeight() - grid.getSurfaceHeight(x));
+		return spawnTank(x, grid.getHeight() - grid.getSurfaceHeight(x) - 1);
 	}
 	
 	public void generateMap(Grid grid) {
@@ -80,8 +95,8 @@ public class GameModel {
 		}
 	}
 	
-	public Shot shoot(Tank tank) {
-		Shot shot = new SimpleShot(tank.getX(), tank.getY(), tank.getPower(), tank.getAngle());
+	public Shot shoot(Tank tank, double power, double angle, int weaponID) {
+		Shot shot = new SimpleShot(tank.getX(), tank.getY(), power, angle);
 		return shot;
 	}
 }

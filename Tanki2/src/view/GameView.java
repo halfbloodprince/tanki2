@@ -7,14 +7,15 @@ import java.io.IOException;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import controller.event.ShootEvent;
 import view.GameWindow;
 import view.GameCanvas;
-
 import common.Constants;
-
+import controller.EventHandler;
 import controller.GameTimer;
 import controller.GameController;
 import controller.event.GenericEvent;
+import view.handler.ShootHandler;
 
 public final class GameView {
 	private GameWindow window;
@@ -22,12 +23,15 @@ public final class GameView {
 	private GameTimer renderTimer;
 	GameController controller;
 	KeyboardHandler keyboard;
+	EventHandler handler;
 	
 	public void SetController (GameController c)
 	{
 		controller = c;
 	}
-	
+
+	public void handle (GenericEvent e) { handler.handle(e); }
+
 	public class BasicWindowMonitor extends WindowAdapter {
 		/**
 		 * Closing callback of the main window
@@ -39,12 +43,15 @@ public final class GameView {
 		    System.exit(0);
 		  }
 	}
-	
+
 	/**
 	 * Create new game view
 	 * @throws IOException Can be thrown when some files cannot be opened
 	 */
 	public GameView() throws IOException {
+		handler = new EventHandler ();
+		handler.put (ShootEvent.class, new ShootHandler (this));
+
 		keyboard = new KeyboardHandler (this);
 
 		window = new GameWindow(Constants.DefaultWindowWidth, Constants.DefaultWindowHeight);
@@ -63,10 +70,9 @@ public final class GameView {
 		canvas = new GameCanvas(window.width, window.height);
 		window.add(canvas);
 
-
 		renderTimer = new GameTimer(Constants.FPS);
 	}
-	
+
 	/**
 	 * @return Rendering canvas associated with this view
 	 */
@@ -75,7 +81,7 @@ public final class GameView {
 	}
 
 	public void Shoot () {
-		controller.AddEvent(new GenericEvent ());
+		controller.AddEvent(new ShootEvent (0, 0.9, 3.0));
 	}
 
 	/**

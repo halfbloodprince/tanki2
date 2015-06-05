@@ -1,51 +1,45 @@
 package model;
 
-import java.io.IOException;
+public class Tank {
 
-import common.Constants;
-import view.Sprite;
+	/// used to make sure assigned tank IDs are unique
+	static private int currentTankID = 0;
 
-public class Tank extends Sprite {
-	private double angle, power;
+	/// used to tell tanks apart from one another
+	private int tankID;
+	
+	/// position co-ordinates
+	private int x, y;
 
-	public Tank() throws IOException{
-		super(Constants.DefaultTankImage);
-		angle = -45;
-		power = 3.0;
+	public Tank() {
+		tankID = currentTankID++;
+		System.out.format("created tank with id %d", tankID);
 	}
-	
+
 	/**
-	 * @param angle New angle value to be set (rads)
+	 * @return the unique ID of the tank
 	 */
-	public void setAngle(double angle) {
-		this.angle = angle;
-	}
-	
+	public int getID () { return tankID; }
+
 	/**
-	 * @param power New power value to be set
+	 * @return X co-ordinate
 	 */
-	public void setPower(double power) {
-		this.power = power;
-	}
-	
+	public int getX () { return x; }
 	/**
-	 * @return Angle of the gun
+	 * @return Y co-ordinate
 	 */
-	public double getAngle() {
-		return this.angle;
-	}
-	
-	/**
-	 * @return Current power of the gun
+	public int getY () { return y; }
+
+	/** sets XY position
+	 * @param x x
+	 * @param y y
 	 */
-	public double getPower() {
-		return this.power;
-	}
-	
+	public void setPosition (int xx, int yy) { x = xx; y = yy; }
+
 	/**
 	 * Make a single shot with current weapon
 	 */
-	public void shoot() {
-		
+	public void shoot () {
+		// todo: spawn bullet
 	}
 }

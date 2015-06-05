@@ -3,30 +3,38 @@ package controller;
 import view.DirtMap;
 import view.GameView;
 import view.ShotAnimation;
+import view.TankSprite;
+
 import model.GameModel;
 import model.Shot;
 import model.Tank;
+
 import controller.event.GenericEvent;
+import controller.EventHandler;
 
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.Map;
+import java.util.HashMap;
 
 public class GameController implements Runnable {
 	GameModel model;
 	GameView view;
 	LinkedBlockingQueue <GenericEvent> queue;
-	
+
+	Tank test_tank; // temporary for testing
+
 	public GameController (GameModel gameModel, GameView gameView) {
 		queue = new LinkedBlockingQueue <GenericEvent> ();
 		model = gameModel;
 		view = gameView;
 		view.SetController (this);
 	}
-	
+
 	public void AddEvent (GenericEvent e)
 	{
 		queue.add (e);
 	}
-	
+
 	/**
 	 * Start the game
 	 */
@@ -35,25 +43,24 @@ public class GameController implements Runnable {
 		DirtMap map = new DirtMap(view.getCanvas().getWidth(), view.getCanvas().getHeight());
 		model.setGrid(map);
 		view.getCanvas().setMap(map);
-	}
-	
-	Tank test_tank;
-	public void run() {
-
-		startGame();
 		
 		try {
 			test_tank = model.spawnTank(600);
-			view.getCanvas().addSprite(test_tank);
+			view.getCanvas().addSprite(new TankSprite(test_tank));
 		}
 
 		catch (Exception e) {
 			System.out.println("Exception: " + e);
 		}
+	}
+	
+	public void run() {
+
+		startGame();
 
 		while (true)
 		{
-			GenericEvent event;
+			GenericEvent event = null;
 			try 
 			{
 				event = queue.take();
@@ -63,16 +70,21 @@ public class GameController implements Runnable {
 				e.printStackTrace();
 			}
 
+			if (event != null) {
+				model.handle (event);
+				view.handle (event);
+			}
+
 			try {
-				Shot shot = model.shoot(test_tank);
+				Shot shot = model.shoot(test_tank, 3.0, -0.6, 0);
 				ShotAnimation anim = new ShotAnimation(shot);
 				anim.setDuration(model.calcShotDuration(shot));
 				view.getCanvas().addAnimation(anim);
 			}
-			catch (Exception e) {
+			catch (Exception e)
+			{
 				System.out.println("Exception: " + e);
 			}
-			// execute event
 		}
 	}
 }
