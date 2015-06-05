@@ -11,7 +11,6 @@ public class KeyboardHandler implements KeyListener {
 		gameView = gv;
 	}
 
-	@Override
 	public void keyPressed (KeyEvent kbEvent)
 	{
 		switch(kbEvent.getKeyCode())
@@ -26,12 +25,10 @@ public class KeyboardHandler implements KeyListener {
 		}
 	}
 
-	@Override
 	public void keyReleased(KeyEvent keyboardEvent)
 	{
 	}
 
-	@Override
 	public void keyTyped(KeyEvent keyboardEvent)
 	{
 	}
