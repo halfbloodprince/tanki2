@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Vector;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import model.Shot;
 import model.Tank;
@@ -57,7 +59,7 @@ public class GameCanvas extends Canvas {
 	 */
 	public GameCanvas(int w, int h) throws IOException {
 		this.setSize(w, h);
-		drawables = new ArrayList<Drawable>();
+		drawables = new CopyOnWriteArrayList<Drawable>();
 		render = new RenderTask(this);
 		delayer = new Timer();
 		
