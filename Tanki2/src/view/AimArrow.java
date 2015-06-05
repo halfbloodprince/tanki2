@@ -35,7 +35,6 @@ public class AimArrow extends Sprite{
 			AffineTransform trans = new AffineTransform();
 			Graphics2D g2d = (Graphics2D)g;
 			trans.setToTranslation(getX(), getY());
-			//trans.translate(0, -img.getHeight()/2);
 			trans.rotate(tank.getAngle());
 			trans.translate(0, -img.getHeight()/2);
 			trans.scale(tank.getPower(), 1.0);

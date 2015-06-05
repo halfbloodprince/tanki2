@@ -25,7 +25,7 @@ public class GameCanvas extends Canvas {
 		}
 	}
 	
-	private List<Sprite> sprites;
+	private List<Drawable> drawables;
 	/** Animations to draw one after another */
 	private Image bufferImage;
 	private DirtMap map;
@@ -39,7 +39,7 @@ public class GameCanvas extends Canvas {
 	 */
 	public GameCanvas(int w, int h) throws IOException {
 		this.setSize(w, h);
-		sprites = new ArrayList<Sprite>();
+		drawables = new ArrayList<Drawable>();
 		render = new RenderTask(this);
 		
 		arrow = new AimArrow();
@@ -73,8 +73,8 @@ public class GameCanvas extends Canvas {
 			map.paint(g);
 		}
 		
-		for(Iterator<Sprite> i = sprites.iterator(); i.hasNext(); ) {
-		    Sprite item = i.next();
+		for(Iterator<Drawable> i = drawables.iterator(); i.hasNext(); ) {
+		    Drawable item = i.next();
 		    item.paint(g);
 		}
 		
@@ -103,7 +103,11 @@ public class GameCanvas extends Canvas {
 	 * @param s Sprite to be added
 	 */
 	public void addSprite(Sprite s) {
-		sprites.add(s);
+		drawables.add(s);
+	}
+	
+	public void addDrawable(Drawable d) {
+		drawables.add(d);
 	}
 	
 	/**

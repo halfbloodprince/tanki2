@@ -1,23 +1,14 @@
 package view;
 
-import java.awt.Graphics;
-
 import common.Constants;
 
-public abstract class Animation {
+public abstract class Animation implements Drawable{
 	protected long duration;
 	protected long begin;
 	
 	public void start() {
 		begin = System.currentTimeMillis();
 	}
-	
-	/**
-	 * Draw this animation at given point
-	 * @param g Graphics to paint onto
-	 * @param t Time from the start of animation
-	 */
-	public abstract void paint (Graphics g);
 	
 	/**
 	 * Informs if animation has ended

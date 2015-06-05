@@ -14,7 +14,9 @@ import common.Constants;
 import controller.EventHandler;
 import controller.GameTimer;
 import controller.GameController;
+import controller.event.ExplosionEvent;
 import controller.event.GenericEvent;
+import view.handler.ExplosionHandler;
 import view.handler.ShootHandler;
 import controller.event.ShootEvent;
 import view.handler.ProjectileCreatedHandler;
@@ -83,6 +85,7 @@ public final class GameView {
 		handler = new EventHandler ();
 		handler.put (ShootEvent.class, new ShootHandler (this));
 		handler.put (ProjectileCreatedEvent.class, new ProjectileCreatedHandler (this));
+		handler.put (ExplosionEvent.class, new ExplosionHandler(this));
 	}
 
 	/**

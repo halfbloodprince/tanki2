@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Sprite {
+public class Sprite implements Drawable {
 	protected BufferedImage img;
 	private int x, y;
 	
