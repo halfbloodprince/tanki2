@@ -170,6 +170,7 @@ public class GameCanvas extends Canvas {
 	 * @param target Shot object to be removed
 	 */
 	public void removeBullet(Shot shot) {
+		map.dirtExplode(shot);
 		for(Iterator<Drawable> i = drawables.iterator(); i.hasNext(); ) {
 		    Drawable item = i.next();
 		    if (item instanceof ShotSprite) {
