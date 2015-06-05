@@ -14,11 +14,14 @@ public class Tank {
 	private int x, y;
 	
 	private double angle, power;
+	
+	private int hitPoints;
 
 	public Tank() {
 		tankID = currentTankID++;
 		System.out.format("created tank with id %d", tankID);
 		power = 0.5; angle = -0.9;
+		hitPoints = 100;
 	}
 
 	/**
@@ -49,6 +52,18 @@ public class Tank {
 		double new_power = power + amount;
 		if (new_power <= 1.0 && new_power >= 0)
 			power = new_power;
+	}
+	
+	public void damage(int amount) {
+		hitPoints -= amount;
+	}
+	
+	public void heal(int amount) {
+		hitPoints += amount;
+	}
+	
+	public int getHP() {
+		return hitPoints;
 	}
 
 	/**

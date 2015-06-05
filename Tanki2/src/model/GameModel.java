@@ -12,6 +12,7 @@ import controller.event.ExplosionEvent;
 import controller.event.GenericEvent;
 import controller.event.ShootEvent;
 import controller.event.ProjectileCreatedEvent;
+import model.handler.ExplosionHandler;
 import model.handler.ShootHandler;
 
 public class GameModel {
@@ -33,6 +34,7 @@ public class GameModel {
 		tanks = new HashMap <Integer, Tank> ();
 		handler = new EventHandler ();
 		handler.put (ShootEvent.class, new ShootHandler (this));
+		handler.put (ExplosionEvent.class, new ExplosionHandler (this));
 	}
 
 	public void handle (GenericEvent e) { handler.handle(e); }
@@ -107,5 +109,16 @@ public class GameModel {
 	public void addProjectile (Shot x) {
 		projectiles.add (x);
 		controller.AddEvent(new ProjectileCreatedEvent (x));
+	}
+
+	/**
+	 * Deal damage from given shot to all tanks
+	 * @param shot
+	 */
+	public void dealDmg(Shot shot) {
+		for (Tank tank : tanks.values()) {
+			int res = shot.dealDmg(tank);
+			/* TODO generate proper event for view */
+		}
 	}
 }

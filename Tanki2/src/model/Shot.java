@@ -2,7 +2,7 @@ package model;
 
 import common.Environment;
 
-public class Shot {
+public abstract class Shot {
 	protected double x;
 	protected double y;
 	protected double power;
@@ -10,6 +10,7 @@ public class Shot {
 	protected double xVel;
 	protected double yVel;
 	protected double radius;
+	protected double basedmg;
 
 	public Shot (int x, int y, double power, double angle) {
 		this.x = x;
@@ -18,6 +19,8 @@ public class Shot {
 		this.power = power;
 		this.angle = angle;
 
+		basedmg = 50;
+		
 		xVel = Math.cos(angle) * power;
 		yVel = Math.sin(angle) * power;
 	}
@@ -34,4 +37,6 @@ public class Shot {
 	public int getRadius() {
 		return (int) radius;
 	}
+	
+	public abstract int dealDmg(Tank tank);
 }
