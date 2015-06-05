@@ -14,14 +14,15 @@ public class KeyboardHandler implements KeyListener {
 	@Override
 	public void keyPressed (KeyEvent kbEvent)
 	{
-		// todo switch-case multiple keys
-		if(kbEvent.getKeyCode() == KeyEvent.VK_SPACE)
+		switch(kbEvent.getKeyCode())
 		{
-			gameView.Shoot();
-		}
-		if(kbEvent.getKeyCode() == KeyEvent.VK_M)
-		{
-			gameView.Shoot2();
+			case KeyEvent.VK_SPACE: gameView.Shoot(); break;
+			case KeyEvent.VK_M: gameView.Shoot2(); break;
+			case KeyEvent.VK_W: gameView.AddPower( 0.1); break;
+			case KeyEvent.VK_S: gameView.AddPower(-0.1); break;
+			case KeyEvent.VK_A: gameView.AddAngle(-0.1); break;
+			case KeyEvent.VK_D: gameView.AddAngle( 0.1); break;
+			default: break;
 		}
 	}
 

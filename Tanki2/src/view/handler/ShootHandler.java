@@ -13,6 +13,6 @@ public class ShootHandler implements GenericHandler {
 		view = v;
 	}
 	public void handle (GenericEvent e) {
-		System.out.format("Shoot happens. (view)\n");
+		// System.out.format("Shoot happens. (view)\n");
 	}
 }

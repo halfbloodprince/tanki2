@@ -33,7 +33,7 @@ public class DirtMap implements Grid {
 	}
 	
 	public boolean occupied(int x, int y) {
-		if (x > width || y > height || x < 0 || y < 0)
+		if (x >= width || y >= height || x <= 0 || y <= 0)
 			return true;
 
 		int [] arr = new int[] { 0xff, 0xff, 0xff, 0xff};
