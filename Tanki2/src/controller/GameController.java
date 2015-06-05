@@ -27,6 +27,7 @@ public class GameController implements Runnable {
 		queue = new LinkedBlockingQueue <GenericEvent> ();
 		model = gameModel;
 		view = gameView;
+		model.SetController (this);
 		view.SetController (this);
 	}
 
@@ -73,17 +74,6 @@ public class GameController implements Runnable {
 			if (event != null) {
 				model.handle (event);
 				view.handle (event);
-			}
-
-			try {
-				Shot shot = model.shoot(test_tank, 3.0, -0.6, 0);
-				ShotAnimation anim = new ShotAnimation(shot);
-				anim.setDuration(model.calcShotDuration(shot));
-				view.getCanvas().addAnimation(anim);
-			}
-			catch (Exception e)
-			{
-				System.out.println("Exception: " + e);
 			}
 		}
 	}

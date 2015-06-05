@@ -37,9 +37,10 @@ public class Tank {
 	public void setPosition (int xx, int yy) { x = xx; y = yy; }
 
 	/**
-	 * Make a single shot with current weapon
+	 * Make a shot with current weapon
 	 */
-	public void shoot () {
-		// todo: spawn bullet
+	public Shot shoot (int weaponID, double power, double angle) {
+		// todo: return array of Shot for 3-shot etc.
+		return new SimpleShot (x, y, power, angle);
 	}
 }

@@ -1,6 +1,7 @@
 package model.handler;
 
 import model.GameModel;
+import model.Tank;
 import controller.GenericHandler;
 import controller.event.GenericEvent;
 import controller.event.ShootEvent;
@@ -15,6 +16,10 @@ public class ShootHandler implements GenericHandler {
 
 	public void handle (GenericEvent e) {
 		ShootEvent event = (ShootEvent) e;
-		// System.out.format("shoot happens. (model)");
+		Tank tank = model.getTank(event.tankID);
+		if (tank == null) return;
+
+		// todo: use an array of bullets (for multishot)
+		model.addProjectile(tank.shoot(event.weaponID, event.power, event.angle));
 	}
 }

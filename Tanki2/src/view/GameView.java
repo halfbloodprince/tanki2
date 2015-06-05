@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-import controller.event.ShootEvent;
 import view.GameWindow;
 import view.GameCanvas;
 import common.Constants;
@@ -16,6 +15,9 @@ import controller.GameTimer;
 import controller.GameController;
 import controller.event.GenericEvent;
 import view.handler.ShootHandler;
+import controller.event.ShootEvent;
+import view.handler.ProjectileCreatedHandler;
+import controller.event.ProjectileCreatedEvent;
 
 public final class GameView {
 	private GameWindow window;
@@ -25,10 +27,7 @@ public final class GameView {
 	KeyboardHandler keyboard;
 	EventHandler handler;
 	
-	public void SetController (GameController c)
-	{
-		controller = c;
-	}
+	public void SetController (GameController c) { controller = c; }
 
 	public void handle (GenericEvent e) { handler.handle(e); }
 
@@ -49,9 +48,6 @@ public final class GameView {
 	 * @throws IOException Can be thrown when some files cannot be opened
 	 */
 	public GameView() throws IOException {
-		handler = new EventHandler ();
-		handler.put (ShootEvent.class, new ShootHandler (this));
-
 		keyboard = new KeyboardHandler (this);
 
 		window = new GameWindow(Constants.DefaultWindowWidth, Constants.DefaultWindowHeight);
@@ -71,6 +67,10 @@ public final class GameView {
 		window.add(canvas);
 
 		renderTimer = new GameTimer(Constants.FPS);
+
+		handler = new EventHandler ();
+		handler.put (ShootEvent.class, new ShootHandler (this));
+		handler.put (ProjectileCreatedEvent.class, new ProjectileCreatedHandler (this));
 	}
 
 	/**
@@ -81,7 +81,10 @@ public final class GameView {
 	}
 
 	public void Shoot () {
-		controller.AddEvent(new ShootEvent (0, 0.9, 3.0));
+		controller.AddEvent(new ShootEvent (0, 0, -0.9, 3.0));
+	}
+	public void Shoot2 () {
+		controller.AddEvent(new ShootEvent (0, 1, -1.3, 5.0));
 	}
 
 	/**

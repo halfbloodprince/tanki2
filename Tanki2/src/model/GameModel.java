@@ -2,17 +2,25 @@ package model;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Random;
 
 import controller.EventHandler;
+import controller.GameController;
 import controller.event.GenericEvent;
 import controller.event.ShootEvent;
+import controller.event.ProjectileCreatedEvent;
 import model.handler.ShootHandler;
 
 public class GameModel {
 	Map <Integer, Tank> tanks;
+	List <Shot> projectiles;
 	Grid grid;
 	EventHandler handler;
+	GameController controller;
+
+	public void SetController (GameController c) { controller = c; }
 
 	/**
 	 * Create new game model
@@ -20,6 +28,7 @@ public class GameModel {
 	 */
 	public GameModel()
 	{
+		projectiles = new ArrayList <Shot> ();
 		tanks = new HashMap <Integer, Tank> ();
 		handler = new EventHandler ();
 		handler.put (ShootEvent.class, new ShootHandler (this));
@@ -78,25 +87,8 @@ public class GameModel {
 		generateMap(grid);
 	}
 	
-	
-	/**
-	 * Calculate duration of shot (i.e. bullet collision point)
-	 * @param shot Shot to be considered
-	 * @return Moment of collision with something
-	 */
-	public int calcShotDuration(Shot shot) {
-		int t = 0;
-		while (true) {
-			if (grid.occupied((int)shot.getBulletX(t), (int)shot.getBulletY(t))) {
-				System.out.println("hit point: " + shot.getBulletX(t) + ", " + shot.getBulletY(t));
-				return t;
-			}
-			t++;
-		}
-	}
-	
-	public Shot shoot(Tank tank, double power, double angle, int weaponID) {
-		Shot shot = new SimpleShot(tank.getX(), tank.getY(), power, angle);
-		return shot;
+	public void addProjectile (Shot x) {
+		projectiles.add (x);
+		controller.AddEvent(new ProjectileCreatedEvent (x));
 	}
 }

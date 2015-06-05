@@ -19,6 +19,10 @@ public class KeyboardHandler implements KeyListener {
 		{
 			gameView.Shoot();
 		}
+		if(kbEvent.getKeyCode() == KeyEvent.VK_M)
+		{
+			gameView.Shoot2();
+		}
 	}
 
 	@Override
