@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,6 +11,9 @@ import javax.imageio.ImageIO;
 public class Sprite {
 	protected BufferedImage img;
 	private int x, y;
+	
+	/** should this sprite be drawn? */
+	protected boolean enabled;
 
 	/**
 	 * Create new sprite from file
@@ -19,6 +23,16 @@ public class Sprite {
 	public Sprite(String filename) throws IOException {
 		img = ImageIO.read(new File(filename));
 		img.setAccelerationPriority(1.0f);
+		
+		enabled = true;
+	}
+	
+	public void disable() {
+		enabled = false;
+	}
+	
+	public void enable() {
+		enabled = true;
 	}
 
 	/**
@@ -50,5 +64,10 @@ public class Sprite {
 	 */
 	public Image getImg() {
 		return img;
+	}
+	
+	public void paint(Graphics g) {
+		if(enabled)
+			g.drawImage(img, getX(), getY(), null);
 	}
 }

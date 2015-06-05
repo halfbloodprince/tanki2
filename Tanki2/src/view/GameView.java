@@ -112,6 +112,7 @@ public final class GameView {
 	 */
 	public void setFocusedTank(Tank tank) {
 		focusedTank = tank;
+		canvas.setFocusedTank(tank);
 	}
 	
 	public Tank getFocusedTank() {

@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,10 +37,13 @@ public class GameCanvas extends Canvas {
 	 * @param w Width of the canvas
 	 * @param h Height of the canvas
 	 */
-	public GameCanvas(int w, int h) {
+	public GameCanvas(int w, int h) throws IOException {
 		this.setSize(w, h);
 		sprites = new ArrayList<Sprite>();
 		render = new RenderTask(this);
+		
+		arrow = new AimArrow();
+		arrow.disable();
 	}
 	
 	/**
@@ -71,8 +75,10 @@ public class GameCanvas extends Canvas {
 		
 		for(Iterator<Sprite> i = sprites.iterator(); i.hasNext(); ) {
 		    Sprite item = i.next();
-		    g.drawImage(item.getImg(), item.getX(), item.getY(), null);
+		    item.paint(g);
 		}
+		
+		arrow.paint(g);
 	}
 
 	/**
@@ -110,5 +116,14 @@ public class GameCanvas extends Canvas {
 	
 	public void setMap(DirtMap m) {
 		map = m;
+	}
+	
+	/**
+	 * Set tank to be drawn as focused
+	 * @param tank
+	 */
+	public void setFocusedTank(Tank tank) {
+		arrow.setTank(tank);
+		arrow.enable();
 	}
 }

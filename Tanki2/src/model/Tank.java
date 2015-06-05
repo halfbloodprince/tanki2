@@ -18,7 +18,7 @@ public class Tank {
 	public Tank() {
 		tankID = currentTankID++;
 		System.out.format("created tank with id %d", tankID);
-		power = 10.0; angle = -0.9;
+		power = 0.5; angle = -0.9;
 	}
 
 	/**
@@ -46,7 +46,9 @@ public class Tank {
 	}
 	
 	public void addPower(double amount) {
-		power += amount;
+		double new_power = power + amount;
+		if (new_power <= 1.0 && new_power >= 0)
+			power = new_power;
 	}
 
 	/**

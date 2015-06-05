@@ -25,8 +25,8 @@ public class KeyboardHandler implements KeyListener {
 		{
 			case KeyEvent.VK_SPACE: gameView.Shoot(); break;
 			case KeyEvent.VK_M: gameView.Shoot2(); break;
-			case KeyEvent.VK_W: tank.addPower( 0.1); break;
-			case KeyEvent.VK_S: tank.addPower(-0.1); break;
+			case KeyEvent.VK_W: tank.addPower( 0.05); break;
+			case KeyEvent.VK_S: tank.addPower(-0.05); break;
 			case KeyEvent.VK_A: tank.addAngle(-0.1); break;
 			case KeyEvent.VK_D: tank.addAngle( 0.1); break;
 			default: break;
