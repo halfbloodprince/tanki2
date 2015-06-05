@@ -1,5 +1,7 @@
 package view.handler;
 
+import model.Shot;
+import view.Explosion;
 import view.GameView;
 import view.ShotSprite;
 import controller.GenericHandler;
@@ -17,7 +19,10 @@ public class ExplosionHandler implements GenericHandler{
 	public void handle (GenericEvent e) {
 		ExplosionEvent event = (ExplosionEvent) e;
 		try {
-			view.getCanvas().removeBullet(event.shot);
+			Shot shot = event.shot;
+			Explosion explosion = new Explosion(shot.getX(), shot.getY(), shot.getRadius());
+			view.getCanvas().addAnimation(explosion);
+			view.getCanvas().removeBullet(shot);					
 		}
 		catch (Exception ex)
 		{

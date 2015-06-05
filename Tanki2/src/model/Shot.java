@@ -9,6 +9,7 @@ public class Shot {
 	protected double angle;
 	protected double xVel;
 	protected double yVel;
+	protected double radius;
 
 	public Shot (int x, int y, double power, double angle) {
 		this.x = x;
@@ -28,5 +29,9 @@ public class Shot {
 		x += xVel;
 		y += yVel;
 		yVel += Environment.gravity;
+	}
+	
+	public int getRadius() {
+		return (int) radius;
 	}
 }

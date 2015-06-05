@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Timer;
 import java.util.TimerTask;
 
 import model.Shot;
@@ -26,12 +27,28 @@ public class GameCanvas extends Canvas {
 		}
 	}
 	
+	public class AnimationDisposalTask extends TimerTask{
+		private GameCanvas canvas;
+		private Animation animation;
+		
+		AnimationDisposalTask(Animation a, GameCanvas c) {
+			this.canvas = c;
+			this.animation = a;
+		}
+		
+		public void run() {
+			canvas.removeDrawable(animation);
+		}
+	}
+	
 	private List<Drawable> drawables;
 	/** Animations to draw one after another */
 	private Image bufferImage;
 	private DirtMap map;
 	private AimArrow arrow;
 	RenderTask render;
+	/** Timer for scheduling drawing jobs and disposals of animations */
+	Timer delayer;
 	
 	/**
 	 * Create new canvas
@@ -42,11 +59,16 @@ public class GameCanvas extends Canvas {
 		this.setSize(w, h);
 		drawables = new ArrayList<Drawable>();
 		render = new RenderTask(this);
+		delayer = new Timer();
 		
 		arrow = new AimArrow();
 		arrow.disable();
 	}
 	
+	public void removeDrawable(Drawable d) {
+		drawables.remove(d);
+	}
+
 	/**
 	 * Flush frame buffer and recreate it
 	 */
@@ -105,6 +127,15 @@ public class GameCanvas extends Canvas {
 	 */
 	public void addSprite(Sprite s) {
 		drawables.add(s);
+	}
+	
+	/**
+	 * Add animation to be showed and schedule its disposal after its duration
+	 * @param a
+	 */
+	public void addAnimation(Animation a) {
+		drawables.add(a);
+		delayer.schedule(new AnimationDisposalTask(a, this), a.duration);
 	}
 	
 	public void addDrawable(Drawable d) {
