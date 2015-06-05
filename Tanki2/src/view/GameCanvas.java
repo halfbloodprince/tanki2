@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TimerTask;
 
+import model.Shot;
 import model.Tank;
 
 public class GameCanvas extends Canvas {
@@ -129,5 +130,22 @@ public class GameCanvas extends Canvas {
 	public void setFocusedTank(Tank tank) {
 		arrow.setTank(tank);
 		arrow.enable();
+	}
+
+	/**
+	 * Remove drawable corresponding to given shot
+	 * @param target Shot object to be removed
+	 */
+	public void removeBullet(Shot shot) {
+		for(Iterator<Drawable> i = drawables.iterator(); i.hasNext(); ) {
+		    Drawable item = i.next();
+		    if (item instanceof ShotSprite) {
+		    	ShotSprite sprite = (ShotSprite)item;
+		    	if (sprite.getShot() == shot) {
+		    		drawables.remove(item);
+		    		return;
+		    	}
+		    }
+		}
 	}
 }

@@ -15,6 +15,13 @@ public class ExplosionHandler implements GenericHandler{
 	}
 
 	public void handle (GenericEvent e) {
-		/*TODO */
+		ExplosionEvent event = (ExplosionEvent) e;
+		try {
+			view.getCanvas().removeBullet(event.shot);
+		}
+		catch (Exception ex)
+		{
+			System.out.println("Exception: " + ex);
+		}
 	}	
 }

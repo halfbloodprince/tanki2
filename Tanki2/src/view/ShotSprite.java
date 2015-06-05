@@ -21,4 +21,8 @@ public class ShotSprite extends Sprite {
 	public int getY() {
 		return shot.getY() - img.getHeight()/2;
 	}
+
+	public Shot getShot() {
+		return shot;
+	}
 }

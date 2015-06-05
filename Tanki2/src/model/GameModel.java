@@ -8,6 +8,7 @@ import java.util.Random;
 
 import controller.EventHandler;
 import controller.GameController;
+import controller.event.ExplosionEvent;
 import controller.event.GenericEvent;
 import controller.event.ShootEvent;
 import controller.event.ProjectileCreatedEvent;
@@ -56,8 +57,10 @@ public class GameModel {
 		for (int i = 0; i < projectiles.size(); ++i) {
 			Shot shot = projectiles.get(i);
 			shot.move();
-			if (grid.occupied(shot.getX(), shot.getY())) removables.add(i);
-			// todo: explosion + projectileRemoved event
+			if (grid.occupied(shot.getX(), shot.getY())) {
+				removables.add(i);
+				controller.AddEvent(new ExplosionEvent(shot));
+			}
 		}
 		for (int i = 0; i < removables.size(); ++i) {
 			projectiles.remove (removables.get(i) - i);

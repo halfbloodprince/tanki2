@@ -1,12 +1,11 @@
 package controller.event;
 
+import model.Shot;
+
 public class ExplosionEvent extends GenericEvent {
-	public int x, y;
-	public double power;
+	public Shot shot;
 	
-	public ExplosionEvent(int x, int y, double power) {
-		this.x = x;
-		this.y = y;
-		this.power = power;
+	public ExplosionEvent(Shot shot) {
+		this.shot = shot;
 	}
 }
