@@ -10,14 +10,12 @@ import java.util.concurrent.Semaphore;
 import controller.EventHandler;
 import controller.GameController;
 import controller.event.DmgDealtEvent;
-import controller.event.ExplosionDoneEvent;
 import controller.event.ExplosionEvent;
 import controller.event.GenericEvent;
 import controller.event.NextTurnEvent;
 import controller.event.ShootEvent;
 import controller.event.ModelTimerEvent;
 import controller.event.ProjectileCreatedEvent;
-import model.handler.ExplosionDoneHandler;
 import model.handler.ModelTimerHandler;
 import model.handler.ExplosionHandler;
 import model.handler.ShootHandler;
@@ -31,6 +29,7 @@ public class GameModel {
 	public boolean enableControl;
 	Integer currentTankId;
 	List<Integer> order;
+	private boolean somethingExploded;
 
 	public void SetController (GameController c) { controller = c; }
 
@@ -45,11 +44,10 @@ public class GameModel {
 		handler = new EventHandler ();
 		handler.put (ShootEvent.class, new ShootHandler (this));
 		handler.put (ExplosionEvent.class, new ExplosionHandler (this));
-		handler.put (ModelTimerEvent.class, new ModelTimerHandler (this));
-		handler.put (ExplosionDoneEvent.class, new ExplosionDoneHandler (this));
-		
+		handler.put (ModelTimerEvent.class, new ModelTimerHandler (this));		
 		order = new ArrayList<Integer>();		
 		enableControl = true;
+		somethingExploded = false;
 	}
 
 	public void handle (GenericEvent e) { handler.handle(e); }
@@ -89,6 +87,10 @@ public class GameModel {
 				tank.setPosition(tank.getX(), tank.getY() + 4);
 			}
 		}
+		
+		if (!enableControl && somethingExploded) {
+			nextTurn();
+		}
 	}
 	
 	public int projectilesCount() {
@@ -114,6 +116,11 @@ public class GameModel {
 	 * Finish this turn and start next one
 	 */
 	public void nextTurn() {
+		if (!turnFinished()) {
+			return;
+		}
+		
+		somethingExploded = false;
 		enableControl = true;
 		int index = order.indexOf(currentTankId);
 		currentTankId = order.get((index + 1) % order.size());
@@ -168,6 +175,7 @@ public class GameModel {
 	 * @param shot
 	 */
 	public void dealDmg(Shot shot) {
+		somethingExploded = true;
 		for (Tank tank : tanks.values()) {
 			int res = shot.dealDmg(tank);
 			if (res != 0)
