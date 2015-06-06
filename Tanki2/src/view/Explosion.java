@@ -23,6 +23,6 @@ public class Explosion extends Animation {
 		int size = 2*(int)(r * t / duration);
 		
 		g.setColor(Color.white);
-		g.drawArc(x-size, y-size, 2*size, 2*size, 0, 360);
+		g.drawOval(x-size, y-size, 2*size, 2*size);
 	}
 }

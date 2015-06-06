@@ -58,7 +58,7 @@ public class GameCanvas extends Canvas {
 	 * @param h Height of the canvas
 	 */
 	public GameCanvas(int w, int h) throws IOException {
-		this.setSize(w, h);
+		this.setSize(w - 10, h - 10);
 		drawables = new CopyOnWriteArrayList<Drawable>();
 		render = new RenderTask(this);
 		delayer = new Timer();
@@ -94,7 +94,6 @@ public class GameCanvas extends Canvas {
 		g.fillRect (0, 0, getWidth(), getHeight());
 		
 		if (map != null) {
-			map.updateImg();
 			map.paint(g);
 		}
 		
@@ -154,6 +153,7 @@ public class GameCanvas extends Canvas {
 	
 	public void setMap(DirtMap m) {
 		map = m;
+		map.updateImg();
 	}
 	
 	/**

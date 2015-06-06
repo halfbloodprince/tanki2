@@ -84,25 +84,26 @@ public class DirtMap implements Grid {
 		
 		Queue<Point> Q = new LinkedBlockingQueue<Point>();
 		Point start = new Point(shot.getX(), shot.getY());
-		System.out.println("blowing : " + shot.getRadius() + ", " + shot.getX() + ", " + shot.getY());
 		Q.add(start);
 		while (!Q.isEmpty()) {
 			int x = Q.peek().x;
 			int y = Q.peek().y;
+			System.out.println("blowing : " + x + ", " + y);
 			Q.poll();
 			if (Math.sqrt((x-start.x) * (x-start.x) + (y-start.y) * (y-start.y)) >= shot.getRadius())
 				continue;
-
-			rmTile(x, y);
 			
-			if (occupied(x + 1, y))
-				Q.offer(new Point(x + 1, y));
-			if (occupied(x - 1, y))
-				Q.offer(new Point(x - 1, y));
-			if (occupied(x, y + 1))
-				Q.offer(new Point(x, y + 1));
-			if (occupied(x, y - 1))
-				Q.offer(new Point(x, y - 1));
+			int [][] ds = new int [][] {{1,0},{-1,0},{0,1},{0,-1},
+						{1,1}, {-1,1}, {1,-1}, {1,1}};
+			
+			for (int[] d : ds) {
+				if (x + d[0] > 0 && x + d[0] < img.getWidth() && 
+					y + d[1] > 0 && y + d[1] < img.getHeight() &&
+					occupied(x + d[0], y + d[1])) {
+					rmTile(x + d[0], y + d[1]);
+					Q.offer(new Point(x + d[0], y + d[1]));
+				}
+			}
 		}
 		
 		return ret;
