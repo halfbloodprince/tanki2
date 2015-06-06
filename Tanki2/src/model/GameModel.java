@@ -70,6 +70,12 @@ public class GameModel {
 		for (int i = 0; i < removables.size(); ++i) {
 			projectiles.remove (removables.get(i) - i);
 		}
+		
+		for (Tank tank : tanks.values()){ 
+			if (!grid.occupied(tank.getX(), tank.getY() + 1)) {
+				tank.setPosition(tank.getX(), tank.getY() + 4);
+			}
+		}
 	}
 	
 	public Tank getTank (int id) {

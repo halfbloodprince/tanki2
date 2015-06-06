@@ -27,7 +27,7 @@ public class TankSprite extends Sprite {
 	}
 	
 	public int getY() {
-		return tank.getY() - img.getHeight()/2;
+		return tank.getY() - img.getHeight();
 	}
 	
 	public void paint(Graphics g) {

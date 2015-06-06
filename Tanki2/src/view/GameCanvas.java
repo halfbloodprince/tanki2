@@ -94,7 +94,6 @@ public class GameCanvas extends Canvas {
 		g.fillRect (0, 0, getWidth(), getHeight());
 		
 		if (map != null) {
-			map.updateImg();
 			map.paint(g);
 		}
 		
@@ -154,6 +153,7 @@ public class GameCanvas extends Canvas {
 	
 	public void setMap(DirtMap m) {
 		map = m;
+		map.updateImg();
 	}
 	
 	/**
@@ -170,6 +170,7 @@ public class GameCanvas extends Canvas {
 	 * @param target Shot object to be removed
 	 */
 	public void removeBullet(Shot shot) {
+		map.dirtExplode(shot);
 		for(Iterator<Drawable> i = drawables.iterator(); i.hasNext(); ) {
 		    Drawable item = i.next();
 		    if (item instanceof ShotSprite) {
