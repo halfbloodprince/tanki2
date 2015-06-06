@@ -17,9 +17,11 @@ import controller.event.DmgDealtEvent;
 import controller.event.ExplosionDoneEvent;
 import controller.event.ExplosionEvent;
 import controller.event.GenericEvent;
+import controller.event.NextTurnEvent;
 import view.handler.DmgDealtHandler;
 import view.handler.ExplosionDoneHandler;
 import view.handler.ExplosionHandler;
+import view.handler.NextTurnHandler;
 import view.handler.ShootHandler;
 import controller.event.ShootEvent;
 import view.handler.ProjectileCreatedHandler;
@@ -91,6 +93,13 @@ public final class GameView {
 		handler.put (ExplosionEvent.class, new ExplosionHandler(this));
 		handler.put (ExplosionDoneEvent.class, new ExplosionDoneHandler(this));
 		handler.put (DmgDealtEvent.class, new DmgDealtHandler(this));
+<<<<<<< HEAD
+=======
+		handler.put (NextTurnEvent.class, new NextTurnHandler(this));
+
+		
+		sender = new ServerSender ();
+>>>>>>> remotes/origin/master
 	}
 
 	/**
@@ -101,12 +110,14 @@ public final class GameView {
 	}
 
 	public void Shoot () {
-		String msg = new String ("SHOT 0 " + focusedTank.getAngle() + " " + focusedTank.getPower());
-		controller.send(msg);
+		controller.AddEvent(new ShootEvent (focusedTank.getID(), 0, focusedTank.getAngle(), focusedTank.getPower()));
+		//String msg = new String ("SHOT 0 " + focusedTank.getAngle() + " " + focusedTank.getPower());
+		// controller.send(msg);
 	}
 	public void Shoot2 () {
-		String msg = new String ("SHOT 1 " + focusedTank.getAngle() + " " + focusedTank.getPower());
-		controller.send(msg);
+		controller.AddEvent(new ShootEvent (focusedTank.getID(), 1, focusedTank.getAngle(), focusedTank.getPower()));
+		//String msg = new String ("SHOT 1 " + focusedTank.getAngle() + " " + focusedTank.getPower());
+		//controller.send(msg);
 	}
 
 	/**

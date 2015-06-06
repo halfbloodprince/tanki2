@@ -11,6 +11,7 @@ import controller.GameController;
 import controller.event.DmgDealtEvent;
 import controller.event.ExplosionEvent;
 import controller.event.GenericEvent;
+import controller.event.NextTurnEvent;
 import controller.event.ShootEvent;
 import controller.event.ModelTimerEvent;
 import controller.event.ProjectileCreatedEvent;
@@ -24,6 +25,9 @@ public class GameModel {
 	Grid grid;
 	EventHandler handler;
 	GameController controller;
+	public boolean enableControl;
+	Integer currentTankId;
+	List<Integer> order;
 
 	public void SetController (GameController c) { controller = c; }
 
@@ -39,6 +43,9 @@ public class GameModel {
 		handler.put (ShootEvent.class, new ShootHandler (this));
 		handler.put (ExplosionEvent.class, new ExplosionHandler (this));
 		handler.put (ModelTimerEvent.class, new ModelTimerHandler (this));
+		
+		order = new ArrayList<Integer>();		
+		enableControl = true;
 	}
 
 	public void handle (GenericEvent e) { handler.handle(e); }
@@ -54,6 +61,7 @@ public class GameModel {
 		Tank tank = new Tank ();
 		tank.setPosition(x, y);
 		tanks.put (tank.getID(), tank);
+		order.add(tank.getID());
 		return tank;
 	}
 
@@ -71,12 +79,27 @@ public class GameModel {
 		for (int i = 0; i < removables.size(); ++i) {
 			projectiles.remove (removables.get(i) - i);
 		}
-		
+				
+		boolean standing = true;
 		for (Tank tank : tanks.values()){ 
 			if (!grid.occupied(tank.getX(), tank.getY() + 1)) {
 				tank.setPosition(tank.getX(), tank.getY() + 4);
+				standing = false;
 			}
 		}
+		
+		if (standing && projectiles.isEmpty() && !enableControl)
+			nextTurn();
+	}
+	
+	/**
+	 * Finish this turn and start next one
+	 */
+	public void nextTurn() {
+		enableControl = true;
+		int index = order.indexOf(currentTankId);
+		currentTankId = order.get((index + 1) % order.size());
+		controller.AddEvent(new NextTurnEvent(getTank(currentTankId)));
 	}
 	
 	public Tank getTank (int id) {
@@ -132,5 +155,20 @@ public class GameModel {
 			if (res != 0)
 				controller.AddEvent(new DmgDealtEvent (tank, res));
 		}
+	}
+
+	/**
+	 * Initiate all game parameters
+	 */
+	public void startGame() {
+		/* TODO What if there are no tanks in game? */
+		/* TODO Set order properly */
+		order.clear();
+		for (Integer id : tanks.keySet()) {
+			order.add(id);
+		}
+
+		currentTankId = order.get(order.size() - 1);
+		nextTurn();
 	}
 }
