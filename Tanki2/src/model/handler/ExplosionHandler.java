@@ -17,6 +17,7 @@ public class ExplosionHandler implements GenericHandler {
 
 	public void handle (GenericEvent e) {
 		ExplosionEvent event = (ExplosionEvent) e;
+		model.grid.dirtExplode(event.shot);
 		model.dealDmg(event.shot);
 	}
 }

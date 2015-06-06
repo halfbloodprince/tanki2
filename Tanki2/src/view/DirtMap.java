@@ -4,16 +4,8 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Set;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import model.Grid;
 import model.Shot;
@@ -47,7 +39,7 @@ public class DirtMap implements Grid {
 		img.setData(raster);
 	}
 	
-	public boolean occupied(int x, int y) {
+	public synchronized boolean occupied(int x, int y) {
 		if (x >= width || y >= height || x <= 0 || y <= 0)
 			return true;
 
@@ -80,7 +72,7 @@ public class DirtMap implements Grid {
 	 * Make a hole after explosion
 	 * @param shot Shot which made this hole
 	 */
-	void dirtExplode(Shot shot) {		
+	public synchronized void dirtExplode(Shot shot) {		
 		Graphics2D g = (Graphics2D)img.getGraphics();
 		g.setColor(new Color(0x00, 0x00, 0x00, 0x00));
 		g.setComposite(AlphaComposite.Clear);

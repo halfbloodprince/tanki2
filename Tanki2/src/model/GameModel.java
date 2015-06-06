@@ -5,16 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.Semaphore;
 
 import controller.EventHandler;
 import controller.GameController;
 import controller.event.DmgDealtEvent;
+import controller.event.ExplosionDoneEvent;
 import controller.event.ExplosionEvent;
 import controller.event.GenericEvent;
 import controller.event.NextTurnEvent;
 import controller.event.ShootEvent;
 import controller.event.ModelTimerEvent;
 import controller.event.ProjectileCreatedEvent;
+import model.handler.ExplosionDoneHandler;
 import model.handler.ModelTimerHandler;
 import model.handler.ExplosionHandler;
 import model.handler.ShootHandler;
@@ -22,7 +25,7 @@ import model.handler.ShootHandler;
 public class GameModel {
 	Map <Integer, Tank> tanks;
 	ArrayList <Shot> projectiles;
-	Grid grid;
+	public Grid grid;
 	EventHandler handler;
 	GameController controller;
 	public boolean enableControl;
@@ -43,6 +46,7 @@ public class GameModel {
 		handler.put (ShootEvent.class, new ShootHandler (this));
 		handler.put (ExplosionEvent.class, new ExplosionHandler (this));
 		handler.put (ModelTimerEvent.class, new ModelTimerHandler (this));
+		handler.put (ExplosionDoneEvent.class, new ExplosionDoneHandler (this));
 		
 		order = new ArrayList<Integer>();		
 		enableControl = true;
@@ -79,19 +83,33 @@ public class GameModel {
 		for (int i = 0; i < removables.size(); ++i) {
 			projectiles.remove (removables.get(i) - i);
 		}
-				
-		boolean standing = true;
+		
 		for (Tank tank : tanks.values()){ 
 			if (!grid.occupied(tank.getX(), tank.getY() + 1)) {
 				tank.setPosition(tank.getX(), tank.getY() + 4);
-				standing = false;
 			}
 		}
-		
-		if (standing && projectiles.isEmpty() && !enableControl)
-			nextTurn();
 	}
 	
+	public int projectilesCount() {
+		return projectiles.size();
+	}
+
+	/*
+	 * return true if current turn is totally finished
+	 */
+	public boolean turnFinished() {
+		if (!projectiles.isEmpty())
+			return false;
+
+		for (Tank tank : tanks.values()){ 
+			if (!grid.occupied(tank.getX(), tank.getY() + 1)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * Finish this turn and start next one
 	 */

@@ -25,4 +25,6 @@ public interface Grid {
 	 * @return Dirt amount at given position
 	 */
 	public int getSurfaceHeight(int x);
+	
+	public void dirtExplode(Shot shot);
 }
