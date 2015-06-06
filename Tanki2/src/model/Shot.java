@@ -28,11 +28,7 @@ public abstract class Shot {
 	public int getX() { return (int) x; }
 	public int getY() { return (int) y; }
 
-	public void move () {
-		x += xVel;
-		y += yVel;
-		yVel += Environment.gravity;
-	}
+	public abstract void move();
 	
 	public int getRadius() {
 		return (int) radius;
