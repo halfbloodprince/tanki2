@@ -17,11 +17,14 @@ public class ShootHandler implements GenericHandler {
 	}
 
 	public void handle (GenericEvent e) {
-		ShootEvent event = (ShootEvent) e;
-		Tank tank = model.getTank(event.tankID);
-		if (tank == null) return;
-
-		ArrayList <Shot> shots = tank.shoot(event.weaponID, event.power, event.angle);
-		for (Shot shot : shots) model.addProjectile(shot);
+		if (model.enableControl) {
+			ShootEvent event = (ShootEvent) e;
+			Tank tank = model.getTank(event.tankID);
+			if (tank == null) return;
+	
+			ArrayList <Shot> shots = tank.shoot(event.weaponID, event.power, event.angle);
+			for (Shot shot : shots) model.addProjectile(shot);
+			model.enableControl = false;
+		}
 	}
 }

@@ -17,9 +17,11 @@ import controller.event.DmgDealtEvent;
 import controller.event.ExplosionDoneEvent;
 import controller.event.ExplosionEvent;
 import controller.event.GenericEvent;
+import controller.event.NextTurnEvent;
 import view.handler.DmgDealtHandler;
 import view.handler.ExplosionDoneHandler;
 import view.handler.ExplosionHandler;
+import view.handler.NextTurnHandler;
 import view.handler.ShootHandler;
 import controller.event.ShootEvent;
 import view.handler.ProjectileCreatedHandler;
@@ -92,6 +94,8 @@ public final class GameView {
 		handler.put (ExplosionEvent.class, new ExplosionHandler(this));
 		handler.put (ExplosionDoneEvent.class, new ExplosionDoneHandler(this));
 		handler.put (DmgDealtEvent.class, new DmgDealtHandler(this));
+		handler.put (NextTurnEvent.class, new NextTurnHandler(this));
+
 		
 		sender = new ServerSender ();
 	}
@@ -104,10 +108,10 @@ public final class GameView {
 	}
 
 	public void Shoot () {
-		controller.AddEvent(new ShootEvent (0, 0, focusedTank.getAngle(), focusedTank.getPower()));
+		controller.AddEvent(new ShootEvent (focusedTank.getID(), 0, focusedTank.getAngle(), focusedTank.getPower()));
 	}
 	public void Shoot2 () {
-		controller.AddEvent(new ShootEvent (0, 1, focusedTank.getAngle(), focusedTank.getPower()));
+		controller.AddEvent(new ShootEvent (focusedTank.getID(), 1, focusedTank.getAngle(), focusedTank.getPower()));
 	}
 
 	/**

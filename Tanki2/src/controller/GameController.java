@@ -32,7 +32,7 @@ public class GameController implements Runnable {
 	LinkedBlockingQueue <GenericEvent> queue;
 	Timer delayingTimer;
 
-	Tank test_tank; // temporary for testing
+	Tank[] test_tank; // temporary for testing
 
 	public GameController (GameModel gameModel, GameView gameView) {
 		Thread serverThread = new Thread(new EventServer ());
@@ -44,6 +44,7 @@ public class GameController implements Runnable {
 		view.SetController (this);
 		delayingTimer = new Timer();
 		new ServerListener (this).start();
+		test_tank = new Tank[2];
 	}
 
 	public void AddEvent (GenericEvent e)
@@ -65,11 +66,14 @@ public class GameController implements Runnable {
 		view.getCanvas().setMap(map);
 		
 		try {
-			test_tank = model.spawnTank(600);
-			view.getCanvas().addSprite(new TankSprite(test_tank));
+			test_tank[0] = model.spawnTank(600);
+			view.getCanvas().addSprite(new TankSprite(test_tank[0]));
+			test_tank[1] = model.spawnTank(300);
+			view.getCanvas().addSprite(new TankSprite(test_tank[1]));
+			model.startGame();
 
 			/* TODO focusing proper tank */
-			view.setFocusedTank(test_tank);
+			//view.setFocusedTank(test_tank);
 		}
 
 		catch (Exception e) {
