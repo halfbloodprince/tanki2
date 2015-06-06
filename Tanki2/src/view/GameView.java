@@ -33,6 +33,7 @@ public final class GameView {
 	KeyboardHandler keyboard;
 	EventHandler handler;
 	private Tank focusedTank;
+	private ServerSender sender;
 	
 	public void SetController (GameController c) { controller = c; }
 
@@ -91,6 +92,8 @@ public final class GameView {
 		handler.put (ExplosionEvent.class, new ExplosionHandler(this));
 		handler.put (ExplosionDoneEvent.class, new ExplosionDoneHandler(this));
 		handler.put (DmgDealtEvent.class, new DmgDealtHandler(this));
+		
+		sender = new ServerSender ();
 	}
 
 	/**

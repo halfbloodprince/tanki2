@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.io.IOException;
 
-import model.Shot;
 import common.Constants;
 
 public class FloatingNumbers extends Animation {

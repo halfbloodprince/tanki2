@@ -21,10 +21,9 @@ public class EventServerConnection extends Thread {
 	}
 
     public void run() {
-    	try ( //PrintWriter o = new PrintWriter(socket.getOutputStream(), true);
+    	try (
     		BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))
     	){
-    		// out = o; // suspicious
     		String inputLine;
 	        while ((inputLine = in.readLine()) != null) {
 	        	System.out.println("Network read: " + inputLine);

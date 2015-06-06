@@ -35,14 +35,14 @@ public class GameController implements Runnable {
 	Tank test_tank; // temporary for testing
 
 	public GameController (GameModel gameModel, GameView gameView) {
+		Thread serverThread = new Thread(new EventServer ());
+		serverThread.start();
 		queue = new LinkedBlockingQueue <GenericEvent> ();
 		model = gameModel;
 		view = gameView;
 		model.SetController (this);
 		view.SetController (this);
 		delayingTimer = new Timer();
-		Thread serverThread = new Thread(new EventServer ());
-		serverThread.start();
 		new ServerListener (this).start();
 	}
 

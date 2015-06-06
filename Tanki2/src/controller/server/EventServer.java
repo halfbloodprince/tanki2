@@ -11,7 +11,7 @@ public class EventServer implements Runnable {
 	
 	public EventServer () {
 		connections = new ArrayList <EventServerConnection> ();
-		ServerTimer st = new ServerTimer (this);
+		new ServerTimer (this);
 	}
 	
 	public void run() {

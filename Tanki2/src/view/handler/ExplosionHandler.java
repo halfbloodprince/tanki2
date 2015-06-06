@@ -3,7 +3,6 @@ package view.handler;
 import model.Shot;
 import view.Explosion;
 import view.GameView;
-import view.ShotSprite;
 import controller.GenericHandler;
 import controller.event.ExplosionEvent;
 import controller.event.GenericEvent;

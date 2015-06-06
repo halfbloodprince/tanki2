@@ -3,8 +3,6 @@ package model.handler;
 import java.util.ArrayList;
 
 import model.GameModel;
-import model.Shot;
-import model.Tank;
 import controller.GenericHandler;
 import controller.event.ExplosionEvent;
 import controller.event.GenericEvent;

@@ -9,7 +9,6 @@ import controller.GameController;
 
 public class ServerListener extends Thread {
 
-    private Socket socket;
     private GameController controller;
 
     public ServerListener (GameController gc) {
