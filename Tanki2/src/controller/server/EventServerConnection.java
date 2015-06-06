@@ -12,6 +12,8 @@ public class EventServerConnection extends Thread {
         super("EventServerConnection");
         socket = sock;
         server = es;
+        try { out = new PrintWriter(socket.getOutputStream(), true); }
+        catch (IOException e) { }
     }
 
     public void send (String msg) {
@@ -19,10 +21,10 @@ public class EventServerConnection extends Thread {
 	}
 
     public void run() {
-    	try ( PrintWriter o = new PrintWriter(socket.getOutputStream(), true);
+    	try ( //PrintWriter o = new PrintWriter(socket.getOutputStream(), true);
     		BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))
     	){
-    		out = o;
+    		// out = o; // suspicious
     		String inputLine;
 	        while ((inputLine = in.readLine()) != null) {
 	        	System.out.println("Network read: " + inputLine);

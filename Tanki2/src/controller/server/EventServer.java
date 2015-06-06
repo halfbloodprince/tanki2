@@ -11,6 +11,7 @@ public class EventServer implements Runnable {
 	
 	public EventServer () {
 		connections = new ArrayList <EventServerConnection> ();
+		ServerTimer st = new ServerTimer (this);
 	}
 	
 	public void run() {
@@ -26,7 +27,10 @@ public class EventServer implements Runnable {
             System.out.println("Server: could not listen on port " + Constants.serverPortNumber);
         }
 	}
-	
+
 	public void send (String msg) {
+		for (EventServerConnection esc : connections) {
+			esc.send (msg);
+		}
 	}
 }

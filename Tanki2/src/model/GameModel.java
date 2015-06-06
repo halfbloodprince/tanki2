@@ -11,7 +11,9 @@ import controller.GameController;
 import controller.event.ExplosionEvent;
 import controller.event.GenericEvent;
 import controller.event.ShootEvent;
+import controller.event.ModelTimerEvent;
 import controller.event.ProjectileCreatedEvent;
+import model.handler.ModelTimerHandler;
 import model.handler.ExplosionHandler;
 import model.handler.ShootHandler;
 
@@ -35,6 +37,7 @@ public class GameModel {
 		handler = new EventHandler ();
 		handler.put (ShootEvent.class, new ShootHandler (this));
 		handler.put (ExplosionEvent.class, new ExplosionHandler (this));
+		handler.put (ModelTimerEvent.class, new ModelTimerHandler (this));
 	}
 
 	public void handle (GenericEvent e) { handler.handle(e); }

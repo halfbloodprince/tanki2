@@ -41,12 +41,14 @@ public class GameController implements Runnable {
 		model.SetController (this);
 		view.SetController (this);
 		delayingTimer = new Timer();
-		EventServer es = new EventServer (); //fixme replace with real server
+		Thread serverThread = new Thread(new EventServer ());
+		serverThread.start();
+		new ServerListener (this).start();
 	}
 
 	public void AddEvent (GenericEvent e)
 	{
-		queue.add (e);
+		if (e != null) queue.add (e);
 	}
 
 	public void AddDelayedEvent(GenericEvent e, long delay) {
