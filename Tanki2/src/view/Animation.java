@@ -15,7 +15,7 @@ public abstract class Animation implements Drawable{
 	 * @return true if animation is done
 	 */
 	public boolean done() {
-		return Constants.TimeScale * (System.currentTimeMillis() - begin) >= duration;
+		return System.currentTimeMillis() - begin >= duration;
 	}
 	
 	public void setDuration(long d) {

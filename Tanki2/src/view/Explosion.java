@@ -19,8 +19,7 @@ public class Explosion extends Animation {
 
 	public void paint (Graphics g) {
 		int t = (int)(System.currentTimeMillis() - begin);
-		t *= Constants.TimeScale;
-		int size = 2*(int)(r * t / duration);
+		int size = (int)(r * t / duration);
 		
 		g.setColor(Color.white);
 		g.drawOval(x-size, y-size, 2*size, 2*size);

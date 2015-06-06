@@ -16,8 +16,6 @@ public class ShotAnimation extends Animation {
 	}
 	
 	public void paint (Graphics g) {
-		int t = (int)(System.currentTimeMillis() - begin);
-		t *= Constants.TimeScale;
 		g.drawImage(bullet.getImg(), (int)shot.getX(), (int)shot.getY(), null);
 	}
 }
