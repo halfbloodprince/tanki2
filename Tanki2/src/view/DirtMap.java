@@ -1,7 +1,9 @@
 package view;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.geom.Point2D;
@@ -77,45 +79,13 @@ public class DirtMap implements Grid {
 	/**
 	 * Make a hole after explosion
 	 * @param shot Shot which made this hole
-	 * @return List of rows to be dynamically shifted
 	 */
-	List<Integer> dirtExplode(Shot shot) {
-		List<Integer> ret = new ArrayList<Integer>();
-		
-		Queue<Point> Q = new LinkedBlockingQueue<Point>();
-		Point start = new Point(shot.getX(), shot.getY());
-		/* Ugly trick for out-of-bounds explosion */
-		start.x = Math.max(start.x, 0);
-		start.x = Math.min(start.x, img.getWidth() - 1);
-		start.y = Math.max(start.y, 0);
-		start.y = Math.min(start.y, img.getHeight() - 1);
-		
-		/* TODO: do it with less memory */
-		boolean [][] odw = new boolean[img.getWidth()][img.getHeight()];
-	
-		Q.add(start);
-		while (!Q.isEmpty()) {
-			int x = Q.peek().x;
-			int y = Q.peek().y;
-			Q.poll();
-			if (Math.sqrt((x-start.x) * (x-start.x) + (y-start.y) * (y-start.y)) >= shot.getRadius())
-				continue;
-			
-			int [][] ds = new int [][] {{1,0},{-1,0},{0,1},{0,-1},
-						{1,1}, {-1,1}, {1,-1}, {1,1}};
-			
-			for (int[] d : ds) {
-				if (x + d[0] >= 0 && x + d[0] < img.getWidth() && 
-					y + d[1] >= 0 && y + d[1] < img.getHeight() &&
-					!odw[x + d[0]][y + d[1]]) {
-					odw[x + d[0]][y + d[1]] = true;
-					if (occupied(x + d[0], y + d[1]))
-						rmTile(x + d[0], y + d[1]);
-					Q.offer(new Point(x + d[0], y + d[1]));
-				}
-			}
-		}
-		
-		return ret;
+	void dirtExplode(Shot shot) {		
+		Graphics2D g = (Graphics2D)img.getGraphics();
+		g.setColor(new Color(0x00, 0x00, 0x00, 0x00));
+		g.setComposite(AlphaComposite.Clear);
+		g.fillOval(shot.getX() - shot.getRadius(),
+					shot.getY() - shot.getRadius(),
+					shot.getRadius() * 2, shot.getRadius() * 2);
 	}
 }
