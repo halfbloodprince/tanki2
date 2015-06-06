@@ -8,6 +8,7 @@ public final class Constants {
 	public static String BulletImage = "media/img/bullet.png";
 	public static String AimArrowImage = "media/img/arrow.png";
 	public static int FPS = 60;
+	public static int serverPortNumber = 31337;
 	public static double TimeScale = 0.3;
 
 	public static String getGameName() {

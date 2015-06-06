@@ -5,8 +5,8 @@ import view.GameView;
 import view.TankSprite;
 import model.GameModel;
 import model.Tank;
-import model.EventServer;
 import controller.event.GenericEvent;
+import controller.server.EventServer;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,7 +21,7 @@ public class GameController implements Runnable {
 			this.controller = controller;
 			this.event = event;
 		}
-		
+
 		public void run() {
 			controller.AddEvent(event);
 		}
@@ -41,14 +41,14 @@ public class GameController implements Runnable {
 		model.SetController (this);
 		view.SetController (this);
 		delayingTimer = new Timer();
-		EventServer es = new EventServer (model); //fixme replace with real server
+		EventServer es = new EventServer (); //fixme replace with real server
 	}
 
 	public void AddEvent (GenericEvent e)
 	{
 		queue.add (e);
 	}
-	
+
 	public void AddDelayedEvent(GenericEvent e, long delay) {
 		delayingTimer.schedule(new AddEventTask(this, e), delay);
 	}

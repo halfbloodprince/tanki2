@@ -10,16 +10,16 @@ import model.Tank;
 public class TankSprite extends Sprite {
 	/// the relevant tank
 	private Tank tank;
-	private int visibleHP;
+	// private int visibleHP;
 
 	public TankSprite (Tank t) throws IOException {
 		super (Constants.DefaultTankImage);
 		tank = t;
-		visibleHP = t.getHP();
+		// visibleHP = t.getHP();
 	}
 	
 	public void updateHP() {
-		visibleHP = tank.getHP();
+		// visibleHP = tank.getHP();
 	}
 
 	public int getX() {
@@ -33,8 +33,8 @@ public class TankSprite extends Sprite {
 	public void paint(Graphics g) {
 		if (enabled) {
 			super.paint(g);
-			g.setColor(Color.getHSBColor((float)visibleHP/300, 1.0f, 0.8f));
-			g.fillRect(getX() - 3, getY() - 10, visibleHP/3, 5);
+			g.setColor(Color.getHSBColor((float)tank.getHP()/300, 1.0f, 0.8f));
+			g.fillRect(getX() - 3, getY() - 10, tank.getHP()/3, 5);
 		}
 	}
 }

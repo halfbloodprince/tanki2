@@ -1,4 +1,4 @@
-package controller;
+package view;
 
 import java.util.Timer;
 import java.util.TimerTask;

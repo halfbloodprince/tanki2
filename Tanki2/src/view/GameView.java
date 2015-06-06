@@ -12,7 +12,6 @@ import view.GameWindow;
 import view.GameCanvas;
 import common.Constants;
 import controller.EventHandler;
-import controller.GameTimer;
 import controller.GameController;
 import controller.event.ExplosionDoneEvent;
 import controller.event.ExplosionEvent;
