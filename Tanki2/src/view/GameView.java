@@ -93,13 +93,7 @@ public final class GameView {
 		handler.put (ExplosionEvent.class, new ExplosionHandler(this));
 		handler.put (ExplosionDoneEvent.class, new ExplosionDoneHandler(this));
 		handler.put (DmgDealtEvent.class, new DmgDealtHandler(this));
-<<<<<<< HEAD
-=======
 		handler.put (NextTurnEvent.class, new NextTurnHandler(this));
-
-		
-		sender = new ServerSender ();
->>>>>>> remotes/origin/master
 	}
 
 	/**
