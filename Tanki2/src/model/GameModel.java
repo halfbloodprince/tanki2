@@ -8,6 +8,7 @@ import java.util.Random;
 
 import controller.EventHandler;
 import controller.GameController;
+import controller.event.DmgDealtEvent;
 import controller.event.ExplosionEvent;
 import controller.event.GenericEvent;
 import controller.event.ShootEvent;
@@ -127,7 +128,8 @@ public class GameModel {
 	public void dealDmg(Shot shot) {
 		for (Tank tank : tanks.values()) {
 			int res = shot.dealDmg(tank);
-			/* TODO generate proper event for view */
+			if (res != 0)
+				controller.AddEvent(new DmgDealtEvent (tank, res));
 		}
 	}
 }

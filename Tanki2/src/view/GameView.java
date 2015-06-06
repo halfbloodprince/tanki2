@@ -13,9 +13,11 @@ import view.GameCanvas;
 import common.Constants;
 import controller.EventHandler;
 import controller.GameController;
+import controller.event.DmgDealtEvent;
 import controller.event.ExplosionDoneEvent;
 import controller.event.ExplosionEvent;
 import controller.event.GenericEvent;
+import view.handler.DmgDealtHandler;
 import view.handler.ExplosionDoneHandler;
 import view.handler.ExplosionHandler;
 import view.handler.ShootHandler;
@@ -88,6 +90,7 @@ public final class GameView {
 		handler.put (ProjectileCreatedEvent.class, new ProjectileCreatedHandler (this));
 		handler.put (ExplosionEvent.class, new ExplosionHandler(this));
 		handler.put (ExplosionDoneEvent.class, new ExplosionDoneHandler(this));
+		handler.put (DmgDealtEvent.class, new DmgDealtHandler(this));
 	}
 
 	/**

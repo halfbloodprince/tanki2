@@ -9,7 +9,7 @@ public final class Constants {
 	public static String AimArrowImage = "media/img/arrow.png";
 	public static String serverHostName = "localhost";
 	public static int FPS = 60;
-	public static int SyncedFPS = 3; // technology
+	public static int SyncedFPS = 30; // technology
 	public static int serverPortNumber = 31337;
 	public static double TimeScale = 0.3;
 

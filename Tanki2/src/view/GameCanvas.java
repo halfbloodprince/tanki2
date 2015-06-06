@@ -137,6 +137,7 @@ public class GameCanvas extends Canvas {
 	public void addAnimation(Animation a) {
 		drawables.add(a);
 		delayer.schedule(new AnimationDisposalTask(a, this), a.duration);
+		a.start();
 	}
 	
 	public void addDrawable(Drawable d) {
