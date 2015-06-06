@@ -84,11 +84,19 @@ public class DirtMap implements Grid {
 		
 		Queue<Point> Q = new LinkedBlockingQueue<Point>();
 		Point start = new Point(shot.getX(), shot.getY());
+		/* Ugly trick for out-of-bounds explosion */
+		start.x = Math.max(start.x, 0);
+		start.x = Math.min(start.x, img.getWidth() - 1);
+		start.y = Math.max(start.y, 0);
+		start.y = Math.min(start.y, img.getHeight() - 1);
+		
+		/* TODO: do it with less memory */
+		boolean [][] odw = new boolean[img.getWidth()][img.getHeight()];
+	
 		Q.add(start);
 		while (!Q.isEmpty()) {
 			int x = Q.peek().x;
 			int y = Q.peek().y;
-			System.out.println("blowing : " + x + ", " + y);
 			Q.poll();
 			if (Math.sqrt((x-start.x) * (x-start.x) + (y-start.y) * (y-start.y)) >= shot.getRadius())
 				continue;
@@ -97,10 +105,12 @@ public class DirtMap implements Grid {
 						{1,1}, {-1,1}, {1,-1}, {1,1}};
 			
 			for (int[] d : ds) {
-				if (x + d[0] > 0 && x + d[0] < img.getWidth() && 
-					y + d[1] > 0 && y + d[1] < img.getHeight() &&
-					occupied(x + d[0], y + d[1])) {
-					rmTile(x + d[0], y + d[1]);
+				if (x + d[0] >= 0 && x + d[0] < img.getWidth() && 
+					y + d[1] >= 0 && y + d[1] < img.getHeight() &&
+					!odw[x + d[0]][y + d[1]]) {
+					odw[x + d[0]][y + d[1]] = true;
+					if (occupied(x + d[0], y + d[1]))
+						rmTile(x + d[0], y + d[1]);
 					Q.offer(new Point(x + d[0], y + d[1]));
 				}
 			}

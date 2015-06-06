@@ -58,7 +58,7 @@ public class GameCanvas extends Canvas {
 	 * @param h Height of the canvas
 	 */
 	public GameCanvas(int w, int h) throws IOException {
-		this.setSize(w - 10, h - 10);
+		this.setSize(w, h);
 		drawables = new CopyOnWriteArrayList<Drawable>();
 		render = new RenderTask(this);
 		delayer = new Timer();
