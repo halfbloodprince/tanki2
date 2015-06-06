@@ -26,7 +26,7 @@ public class EventServerConnection extends Thread {
     	){
     		String inputLine;
 	        while ((inputLine = in.readLine()) != null) {
-	        	System.out.println("Network read: " + inputLine);
+	        	// System.out.println("Network read: " + inputLine);
 	        	server.send(inputLine);
 	        }
     	}

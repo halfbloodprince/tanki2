@@ -31,6 +31,7 @@ public class GameController implements Runnable {
 	GameView view;
 	LinkedBlockingQueue <GenericEvent> queue;
 	Timer delayingTimer;
+	ServerListener server;
 
 	Tank test_tank; // temporary for testing
 
@@ -43,12 +44,17 @@ public class GameController implements Runnable {
 		model.SetController (this);
 		view.SetController (this);
 		delayingTimer = new Timer();
-		new ServerListener (this).start();
+		server = new ServerListener (this);
+		server.start();
 	}
 
 	public void AddEvent (GenericEvent e)
 	{
 		if (e != null) queue.add (e);
+	}
+	public void send (String msg)
+	{
+		server.send (msg);
 	}
 
 	public void AddDelayedEvent(GenericEvent e, long delay) {

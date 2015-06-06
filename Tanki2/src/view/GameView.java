@@ -33,7 +33,6 @@ public final class GameView {
 	KeyboardHandler keyboard;
 	EventHandler handler;
 	private Tank focusedTank;
-	private ServerSender sender;
 	
 	public void SetController (GameController c) { controller = c; }
 
@@ -92,8 +91,6 @@ public final class GameView {
 		handler.put (ExplosionEvent.class, new ExplosionHandler(this));
 		handler.put (ExplosionDoneEvent.class, new ExplosionDoneHandler(this));
 		handler.put (DmgDealtEvent.class, new DmgDealtHandler(this));
-		
-		sender = new ServerSender ();
 	}
 
 	/**
@@ -104,10 +101,12 @@ public final class GameView {
 	}
 
 	public void Shoot () {
-		controller.AddEvent(new ShootEvent (0, 0, focusedTank.getAngle(), focusedTank.getPower()));
+		String msg = new String ("SHOT 0 " + focusedTank.getAngle() + " " + focusedTank.getPower());
+		controller.send(msg);
 	}
 	public void Shoot2 () {
-		controller.AddEvent(new ShootEvent (0, 1, focusedTank.getAngle(), focusedTank.getPower()));
+		String msg = new String ("SHOT 1 " + focusedTank.getAngle() + " " + focusedTank.getPower());
+		controller.send(msg);
 	}
 
 	/**

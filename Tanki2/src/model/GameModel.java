@@ -90,6 +90,7 @@ public class GameModel {
 	public void generateMap(Grid grid) {
 		/* TODO deterministic way to do this */
 		Random gen = new Random();
+		gen.setSeed(1337);
 		double div = 0;
 		double h = 0.2;
 		double up = 0.7 * grid.getHeight();

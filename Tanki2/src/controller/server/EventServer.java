@@ -13,7 +13,7 @@ public class EventServer implements Runnable {
 		connections = new ArrayList <EventServerConnection> ();
 		new ServerTimer (this);
 	}
-	
+
 	public void run() {
 		try (ServerSocket serverSocket = new ServerSocket(Constants.serverPortNumber)) { 
             while (true) {
