@@ -4,6 +4,9 @@ public final class Constants {
 	public static String GameName = "Tanki 2";
 	public static int DefaultWindowWidth = 1024;
 	public static int DefaultWindowHeight = 768;
+	public static String TankImages[] = {"media/img/tank.png",
+		"media/img/tank-red.png",
+	};
 	public static String DefaultTankImage = "media/img/tank.png";
 	public static String BulletImage = "media/img/bullet.png";
 	public static String AimArrowImage = "media/img/arrow.png";

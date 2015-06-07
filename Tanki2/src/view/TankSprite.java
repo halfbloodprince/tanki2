@@ -1,7 +1,13 @@
 package view;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.color.ICC_ProfileRGB;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorConvertOp;
 import java.io.IOException;
 
 import common.Constants;
@@ -13,7 +19,7 @@ public class TankSprite extends Sprite {
 	// private int visibleHP;
 
 	public TankSprite (Tank t) throws IOException {
-		super (Constants.DefaultTankImage);
+		super (Constants.TankImages[t.getTeamID()]);
 		tank = t;
 		// visibleHP = t.getHP();
 	}
@@ -32,7 +38,7 @@ public class TankSprite extends Sprite {
 	
 	public void paint(Graphics g) {
 		if (enabled) {
-			super.paint(g);
+			g.drawImage(img, getX(), getY(), null);
 			g.setColor(Color.getHSBColor((float)tank.getHP()/300, 1.0f, 0.8f));
 			g.fillRect(getX() - 3, getY() - 10, tank.getHP()/3, 5);
 		}
