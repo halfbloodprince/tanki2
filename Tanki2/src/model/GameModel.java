@@ -99,7 +99,7 @@ public class GameModel {
 			}
 		}
 		
-		if (!enableControl && somethingExploded) {
+		if (!enableControl && somethingExploded && projectiles.isEmpty()) {
 			nextTurn();
 		}
 	}
@@ -175,7 +175,7 @@ public class GameModel {
 	public void generateMap(Grid grid) {
 		/* TODO deterministic way to do this */
 		Random gen = new Random();
-		gen.setSeed(1337);
+		//gen.setSeed(1337);
 		double div = 0;
 		double h = 1.0;
 		double up = 0.7 * grid.getHeight();
