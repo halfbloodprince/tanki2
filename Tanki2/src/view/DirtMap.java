@@ -14,16 +14,17 @@ public class DirtMap implements Grid {
 	private WritableRaster raster;
 	private BufferedImage img;
 	int width, height;
+	int [] dirtColor;
 		
 	public DirtMap(int w, int h) {
 		width = w;
 		height = h;
 		img = new BufferedImage(w , h, BufferedImage.TYPE_INT_ARGB);
 		raster = img.getRaster();
+		dirtColor = new int[] { 0x00, 0xff, 0x00, 0xff };
 	}
 	
 	public void setTile(int x, int y) {
-		int [] dirtColor = new int[] { 0x10, 0xe0, 0x01, 0xff };
 		raster.setPixel(x, y, dirtColor);
 	}
 	
@@ -79,5 +80,36 @@ public class DirtMap implements Grid {
 		g.fillOval(shot.getX() - shot.getRadius(),
 					shot.getY() - shot.getRadius(),
 					shot.getRadius() * 2, shot.getRadius() * 2);
+	}
+	
+	/**
+	 * Paint the ground in nice colors
+	 */
+	public void prettyPaint() {
+		int [] color = new int [4];
+		double granicaWieloletniejZmarzliny = 0.75;
+		
+		for (int i = 0; i < width; ++i) {
+			int h = getSurfaceHeight(i);
+			for (int j = 0; j < height; ++j) {
+				raster.getPixel(i, j, color);
+				
+				double p = (double)(height-j)/h;
+				double q = (double)(height-j)/height;
+				double r = 0.5 * p + 0.5 * q;
+
+				color[0] = (int)(q * 0xe0);
+				color[1] = (int)(0.5 * (0xff - color[0]));
+				
+				if (r > granicaWieloletniejZmarzliny) {
+					color[2] = color[1] = color[0] = 0xf0;
+				} else if (h-(height-j) < 5) {
+					color[1] *= 0.7;
+					color[0] *= 0.5;
+				}
+
+				raster.setPixel(i, j, color);
+			}
+		}
 	}
 }

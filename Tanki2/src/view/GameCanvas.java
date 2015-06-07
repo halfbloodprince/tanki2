@@ -154,6 +154,7 @@ public class GameCanvas extends Canvas {
 	
 	public void setMap(DirtMap m) {
 		map = m;
+		map.prettyPaint();
 		map.updateImg();
 	}
 	
