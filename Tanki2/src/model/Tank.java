@@ -9,6 +9,8 @@ public class Tank {
 
 	/// used to tell tanks apart from one another
 	private int tankID;
+
+	private int teamID;
 	
 	/// position co-ordinates
 	private int x, y;
@@ -22,6 +24,7 @@ public class Tank {
 		System.out.format("created tank with id %d", tankID);
 		power = 0.5; angle = -0.9;
 		hitPoints = 100;
+		teamID = 0;
 	}
 
 	/**
@@ -87,5 +90,13 @@ public class Tank {
 	
 	public double getPower() {
 		return power;
+	}
+	
+	public void setTeamId(int id) {
+		teamID = id;
+	}
+	
+	public int getTeamID() {
+		return teamID;
 	}
 }

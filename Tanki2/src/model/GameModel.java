@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -11,11 +12,13 @@ import controller.EventHandler;
 import controller.GameController;
 import controller.event.DmgDealtEvent;
 import controller.event.ExplosionEvent;
+import controller.event.GameOverEvent;
 import controller.event.GenericEvent;
 import controller.event.NextTurnEvent;
 import controller.event.ShootEvent;
 import controller.event.ModelTimerEvent;
 import controller.event.ProjectileCreatedEvent;
+import controller.event.TankDestroyedEvent;
 import model.handler.ModelTimerHandler;
 import model.handler.ExplosionHandler;
 import model.handler.ShootHandler;
@@ -82,9 +85,17 @@ public class GameModel {
 			projectiles.remove (removables.get(i) - i);
 		}
 		
-		for (Tank tank : tanks.values()){ 
+		Iterator<Map.Entry<Integer, Tank>> iter = tanks.entrySet().iterator(); 
+		while(iter.hasNext()) {
+			Tank tank = iter.next().getValue();
 			if (!grid.occupied(tank.getX(), tank.getY() + 1)) {
 				tank.setPosition(tank.getX(), tank.getY() + 4);
+			}
+			
+			if (tank.getHP() <= 0) {
+				controller.AddEvent(new TankDestroyedEvent(tank));
+				order.remove(new Integer(tank.getID()));
+				iter.remove();
 			}
 		}
 		
@@ -113,10 +124,36 @@ public class GameModel {
 	}
 
 	/**
+	 * Get winner if game is ended
+	 * @return Winning team id or -1 if game is not finished
+	 */
+	public int getWinner() {
+		int winner = -1;
+
+		for (Tank tank : tanks.values()) {
+			if (winner == -1)
+				winner = tank.getTeamID();
+			
+			if (winner != tank.getTeamID())
+				return -1;
+		}
+
+		return winner;
+	}
+	
+	/**
 	 * Finish this turn and start next one
 	 */
 	public void nextTurn() {
 		if (!turnFinished()) {
+			return;
+		}
+		
+		int winner = getWinner();
+		if (winner != -1) {
+			controller.AddEvent(new GameOverEvent(winner));
+			enableControl = false;
+			somethingExploded = false;
 			return;
 		}
 		
@@ -140,7 +177,7 @@ public class GameModel {
 		Random gen = new Random();
 		gen.setSeed(1337);
 		double div = 0;
-		double h = 0.2;
+		double h = 1.0;
 		double up = 0.7 * grid.getHeight();
 		double down = 0.1 * grid.getHeight();
 		double s = down + gen.nextDouble() * (up - down) / 2;

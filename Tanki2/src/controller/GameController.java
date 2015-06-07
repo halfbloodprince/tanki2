@@ -73,8 +73,10 @@ public class GameController implements Runnable {
 		
 		try {
 			test_tank[0] = model.spawnTank(600);
+			test_tank[0].setTeamId(0);
 			view.getCanvas().addSprite(new TankSprite(test_tank[0]));
 			test_tank[1] = model.spawnTank(300);
+			test_tank[1].setTeamId(1);
 			view.getCanvas().addSprite(new TankSprite(test_tank[1]));
 			model.startGame();
 

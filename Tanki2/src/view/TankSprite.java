@@ -37,4 +37,8 @@ public class TankSprite extends Sprite {
 			g.fillRect(getX() - 3, getY() - 10, tank.getHP()/3, 5);
 		}
 	}
+	
+	public Tank getTank() {
+		return tank;
+	}
 }

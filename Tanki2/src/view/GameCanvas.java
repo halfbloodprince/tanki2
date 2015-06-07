@@ -187,7 +187,20 @@ public class GameCanvas extends Canvas {
 		for (Drawable s : drawables) {
 			if (s instanceof TankSprite) {
 				((TankSprite)s).updateHP();
-				/*TODO print damage dealt */
+			}
+		}
+	}
+
+	/**
+	 * Remove drawables related to this tank. They are no longer needed.
+	 * @param tank No longer existing tank
+	 */
+	public void removeTank(Tank tank) {
+		for (Drawable s : drawables) {
+			if (s instanceof TankSprite) {
+				TankSprite sprite = (TankSprite)s;
+				if (sprite.getTank() == tank)
+					drawables.remove(s);
 			}
 		}
 	}

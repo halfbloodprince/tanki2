@@ -16,13 +16,17 @@ import controller.GameController;
 import controller.event.DmgDealtEvent;
 import controller.event.ExplosionDoneEvent;
 import controller.event.ExplosionEvent;
+import controller.event.GameOverEvent;
 import controller.event.GenericEvent;
 import controller.event.NextTurnEvent;
+import controller.event.TankDestroyedEvent;
 import view.handler.DmgDealtHandler;
 import view.handler.ExplosionDoneHandler;
 import view.handler.ExplosionHandler;
+import view.handler.GameOverHandler;
 import view.handler.NextTurnHandler;
 import view.handler.ShootHandler;
+import view.handler.TankDestroyedHandler;
 import controller.event.ShootEvent;
 import view.handler.ProjectileCreatedHandler;
 import controller.event.ProjectileCreatedEvent;
@@ -94,6 +98,9 @@ public final class GameView {
 		handler.put (ExplosionDoneEvent.class, new ExplosionDoneHandler(this));
 		handler.put (DmgDealtEvent.class, new DmgDealtHandler(this));
 		handler.put (NextTurnEvent.class, new NextTurnHandler(this));
+		handler.put (TankDestroyedEvent.class, new TankDestroyedHandler(this));
+		handler.put (GameOverEvent.class, new GameOverHandler(this));
+
 	}
 
 	/**
@@ -137,5 +144,11 @@ public final class GameView {
 	public void scheduleExplosion(Explosion explosion) {
 		getCanvas().addAnimation(explosion);
 		controller.AddDelayedEvent(new ExplosionDoneEvent(), explosion.duration);
+	}
+
+	public void gameOver(int winner) {
+		DrawableString s = new DrawableString("Winner winner chicken dinner!");
+		s.setPosition(canvas.getWidth()/2 - 100, canvas.getHeight()/2);
+		canvas.addDrawable(s);
 	}
 }
