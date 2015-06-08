@@ -33,6 +33,11 @@ import controller.event.ShootEvent;
 import view.handler.ProjectileCreatedHandler;
 import controller.event.ProjectileCreatedEvent;
 
+/**
+ * View part of mvc. Can handle many events.
+ * @author Severus
+ *
+ */
 public final class GameView {
 	private GameWindow window;
 	private GameCanvas canvas;

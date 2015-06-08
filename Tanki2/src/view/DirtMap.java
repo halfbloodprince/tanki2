@@ -10,12 +10,24 @@ import java.awt.image.WritableRaster;
 import model.Grid;
 import model.Shot;
 
+/**
+ * Pixel-based implementation of the grid for model.
+ * It is based on single image. A pixel is the same as tile in grid. The pixels transparency determine tiles occupancy.
+ * It can paint itself in beautiful colors, still being usable by physics.
+ * @author Severus
+ *
+ */
 public class DirtMap implements Grid {
 	private WritableRaster raster;
 	private BufferedImage img;
 	int width, height;
 	int [] dirtColor;
-		
+	
+	/**
+	 * Create a map
+	 * @param w Width
+	 * @param h Height
+	 */
 	public DirtMap(int w, int h) {
 		width = w;
 		height = h;
@@ -24,22 +36,28 @@ public class DirtMap implements Grid {
 		dirtColor = new int[] { 0x00, 0xff, 0x00, 0xff };
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see model.Grid#setTile(int, int)
+	 */
 	public void setTile(int x, int y) {
 		raster.setPixel(x, y, dirtColor);
 	}
 	
+	/**
+	 * Remove tile from this map (set it transparency to 0)
+	 * @param x
+	 * @param y
+	 */
 	public void rmTile(int x, int y) {
 		int [] emptyness = new int[] { 0x00, 0x00, 0x00, 0x00 };
 		raster.setPixel(x, y, emptyness);
 	}
 	
-	/**
-	 * Accept all changes made so far
+	/*
+	 * (non-Javadoc)
+	 * @see model.Grid#occupied(int, int)
 	 */
-	public void updateImg() {
-		img.setData(raster);
-	}
-	
 	public synchronized boolean occupied(int x, int y) {
 		if (x >= width || y >= height || x <= 0 || y <= 0)
 			return true;
@@ -49,17 +67,34 @@ public class DirtMap implements Grid {
 	    return arr[3] == 0xFF;
 	}
 	
+	/**
+	 * Paint the map
+	 * @param g Graphics on which map should be painted
+	 */
 	public void paint (Graphics g) {
 		g.drawImage(img, 0, 0, null);
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see model.Grid#getWidth()
+	 */
 	public int getWidth() {
 		return width;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see model.Grid#getHeight()
+	 */
 	public int getHeight() {
 		return height;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see model.Grid#getSurfaceHeight(int)
+	 */
 	public int getSurfaceHeight(int x) {
 		for (int i = 0; i < height; ++i) {
 			if (!occupied(x, height - i - 1))

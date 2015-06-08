@@ -8,6 +8,11 @@ import java.io.IOException;
 import model.Tank;
 import common.Constants;
 
+/**
+ * Sprite for aiming arrow
+ * @author Severus
+ *
+ */
 public class AimArrow extends Sprite{
 	Tank tank;
 	

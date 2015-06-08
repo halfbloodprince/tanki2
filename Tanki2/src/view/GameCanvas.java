@@ -16,7 +16,17 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import model.Shot;
 import model.Tank;
 
+/**
+ * Represent a area on which game is rendered
+ * @author Severus
+ *
+ */
 public class GameCanvas extends Canvas {
+	/**
+	 * Task for rendering a canvas regularly
+	 * @author Severus
+	 *
+	 */
 	public class RenderTask extends TimerTask{
 		private Canvas canvas;
 
@@ -29,6 +39,11 @@ public class GameCanvas extends Canvas {
 		}
 	}
 	
+	/**
+	 * Task for delayed animation disposal when it's ended
+	 * @author Severus
+	 *
+	 */
 	public class AnimationDisposalTask extends TimerTask{
 		private GameCanvas canvas;
 		private Animation animation;
@@ -69,6 +84,10 @@ public class GameCanvas extends Canvas {
 		arrow.disable();
 	}
 	
+	/**
+	 * Remove drawable
+	 * @param d
+	 */
 	public void removeDrawable(Drawable d) {
 		drawables.remove(d);
 	}
@@ -154,10 +173,13 @@ public class GameCanvas extends Canvas {
 		return render;
 	}
 	
+	/**
+	 * Set a map
+	 * @param m
+	 */
 	public void setMap(DirtMap m) {
 		map = m;
 		map.prettyPaint();
-		map.updateImg();
 	}
 	
 	/**

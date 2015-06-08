@@ -1,5 +1,10 @@
 package controller.event;
 
+/**
+ * Event created when tank made a shot
+ * @author Severus
+ *
+ */
 public class ShootEvent extends GenericEvent {
 	/// tank ID
 	public int tankID;

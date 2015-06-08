@@ -2,6 +2,11 @@ package view;
 
 import java.awt.Graphics;
 
+/**
+ * Interface for everything specific which can be showed on the screen
+ * @author Severus
+ *
+ */
 public interface Drawable {
 	/**
 	 * Draw this

@@ -5,9 +5,20 @@ import java.awt.Graphics;
 
 import common.Constants;
 
+/**
+ * Animation of explosion
+ * @author Severus
+ *
+ */
 public class Explosion extends Animation {
 	int x, y, r;
 
+	/**
+	 * Create this explosion
+	 * @param x x position
+	 * @param y y position
+	 * @param r Radius
+	 */
 	public Explosion(int x, int y, int r) {
 		this.x = x;
 		this.y = y;
@@ -17,6 +28,10 @@ public class Explosion extends Animation {
 		start();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see view.Drawable#paint(java.awt.Graphics)
+	 */
 	public void paint (Graphics g) {
 		int t = (int)(System.currentTimeMillis() - begin);
 		int size = (int)(r * t / duration);

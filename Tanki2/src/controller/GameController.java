@@ -12,7 +12,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * Controller part of MVC. Store event queue and send events to model and view.
+ */
 public class GameController implements Runnable {
+	/**
+	 * Task for sending event with delay
+	 * @author Severus
+	 *
+	 */
 	public class AddEventTask extends TimerTask {
 		private GameController controller;
 		private GenericEvent event;
@@ -49,15 +57,25 @@ public class GameController implements Runnable {
 		test_tank = new Tank[2];
 	}
 
+	/**
+	 * Add new event to the queue
+	 * @param e
+	 */
 	public void AddEvent (GenericEvent e)
 	{
 		if (e != null) queue.add (e);
 	}
+	
 	public void send (GenericEvent msg)
 	{
 		server.send (msg);
 	}
 
+	/**
+	 * Schedule an event to be created after specified period of time
+	 * @param e Event to be created
+	 * @param delay Delay in miliseconds
+	 */
 	public void AddDelayedEvent(GenericEvent e, long delay) {
 		delayingTimer.schedule(new AddEventTask(this, e), delay);
 	}
@@ -89,6 +107,9 @@ public class GameController implements Runnable {
 		}
 	}
 	
+	/**
+	 * Run controller task
+	 */
 	public void run() {
 
 		startGame();

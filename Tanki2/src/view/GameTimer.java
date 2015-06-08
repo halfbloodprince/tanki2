@@ -2,7 +2,12 @@ package view;
 
 import java.util.Timer;
 import java.util.TimerTask;
-// todo: move to view, add separate synchronised model timer
+
+/**
+ * Timer which perform render tasks at specified fps rate.
+ * @author Severus
+ *
+ */
 public class GameTimer extends Timer {
 	private int fps;
 

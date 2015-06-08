@@ -23,6 +23,9 @@ import model.handler.ModelTimerHandler;
 import model.handler.ExplosionHandler;
 import model.handler.ShootHandler;
 
+/**
+ * Main class for model part of MVC. Can perform multiple operations, including physics calculations and generating events.
+ */
 public class GameModel {
 	Map <Integer, Tank> tanks;
 	ArrayList <Shot> projectiles;
@@ -34,6 +37,10 @@ public class GameModel {
 	List<Integer> order;
 	private boolean somethingExploded;
 
+	/**
+	 * Set new controller object to this model
+	 * @param c Controller to be used
+	 */
 	public void SetController (GameController c) { controller = c; }
 
 	/**
@@ -164,18 +171,33 @@ public class GameModel {
 		controller.AddEvent(new NextTurnEvent(getTank(currentTankId)));
 	}
 	
+	/**
+	 * Get tank of given id
+	 * @param id Id of tank
+	 * @return Tank which id equals given
+	 */
 	public Tank getTank (int id) {
 		return tanks.get(id);
 	}
 
+	/**
+	 * Spawn new tank in specified location. Use information about ground height to determine y location.
+	 * @param x X position
+	 * @return New tank
+	 * @throws Exception
+	 */
 	public Tank spawnTank(int x) throws Exception {
 		return spawnTank(x, grid.getHeight() - grid.getSurfaceHeight(x) - 1);
 	}
 	
+	/**
+	 * Generate new random map
+	 * @param grid Grid on which map should be generated
+	 */
 	public void generateMap(Grid grid) {
 		/* TODO deterministic way to do this */
 		Random gen = new Random();
-		//gen.setSeed(1337);
+		gen.setSeed(1337);
 		double div = 0;
 		double h = 1.0;
 		double up = 0.7 * grid.getHeight();
@@ -197,11 +219,19 @@ public class GameModel {
 		}
 	}
 	
+	/**
+	 * Use new grid object
+	 * @param grid Grid to be used
+	 */
 	public void setGrid(Grid grid) {
 		this.grid = grid;
 		generateMap(grid);
 	}
 	
+	/**
+	 * Add projectile from given shot
+	 * @param x Shot which was made
+	 */
 	public void addProjectile (Shot x) {
 		projectiles.add (x);
 		controller.AddEvent(new ProjectileCreatedEvent (x));
