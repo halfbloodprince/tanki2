@@ -60,7 +60,7 @@ public class GameCanvas extends Canvas {
 	 */
 	public GameCanvas(int w, int h) throws IOException {
 		this.setSize(w, h);
-		skyColor = new Color (32, 96, 224);
+		skyColor = new Color (0, 128, 255);
 		drawables = new CopyOnWriteArrayList<Drawable>();
 		render = new RenderTask(this);
 		delayer = new Timer();

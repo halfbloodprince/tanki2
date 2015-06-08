@@ -4,6 +4,8 @@ import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -40,6 +42,7 @@ public final class GameView {
 	EventHandler handler;
 	private Tank focusedTank;
 	private boolean switchWeapons;
+	Map <Integer, ViewTank> tanks;
 	
 	public void SetController (GameController c) { controller = c; }
 
@@ -73,6 +76,7 @@ public final class GameView {
 	 */
 	public GameView() throws IOException {
 		switchWeapons = false;
+		tanks = new HashMap <Integer, ViewTank> ();
 		keyboard = new KeyboardHandler (this);
 
 		window = new GameWindow(Constants.DefaultWindowWidth, Constants.DefaultWindowHeight);
@@ -117,13 +121,9 @@ public final class GameView {
 
 	public void Shoot () {
 		controller.send(new ShootEvent (focusedTank.getID(), 0, focusedTank.getAngle(), focusedTank.getPower()));
-		//String msg = new String ("SHOT 0 " + focusedTank.getAngle() + " " + focusedTank.getPower());
-		// controller.send(msg);
 	}
 	public void Shoot2 () {
 		controller.send(new ShootEvent (focusedTank.getID(), 1, focusedTank.getAngle(), focusedTank.getPower()));
-		//String msg = new String ("SHOT 1 " + focusedTank.getAngle() + " " + focusedTank.getPower());
-		//controller.send(msg);
 	}
 
 	/**
@@ -131,6 +131,14 @@ public final class GameView {
 	 */
 	public void enableCanvas() {
 		renderTimer.scheduleRenderTask(canvas.getRenderTask());
+	}
+	
+	public void addTank (Tank tank) {
+		tanks.put (tank.getID(), new ViewTank (tank, this));
+	}
+
+	public ViewTank getTank (int id) {
+		return tanks.get(id);
 	}
 	
 	/**
