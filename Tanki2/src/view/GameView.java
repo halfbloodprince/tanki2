@@ -39,6 +39,7 @@ public final class GameView {
 	KeyboardHandler keyboard;
 	EventHandler handler;
 	private Tank focusedTank;
+	private boolean switchWeapons;
 	
 	public void SetController (GameController c) { controller = c; }
 
@@ -71,6 +72,7 @@ public final class GameView {
 	 * @throws IOException Can be thrown when some files cannot be opened
 	 */
 	public GameView() throws IOException {
+		switchWeapons = false;
 		keyboard = new KeyboardHandler (this);
 
 		window = new GameWindow(Constants.DefaultWindowWidth, Constants.DefaultWindowHeight);
@@ -110,13 +112,16 @@ public final class GameView {
 		return canvas;
 	}
 
+	public boolean getSwitchWeapons () { return switchWeapons; }
+	public void setSwitchWeapons (boolean value) { switchWeapons = value; }
+
 	public void Shoot () {
-		controller.AddEvent(new ShootEvent (focusedTank.getID(), 0, focusedTank.getAngle(), focusedTank.getPower()));
+		controller.send(new ShootEvent (focusedTank.getID(), 0, focusedTank.getAngle(), focusedTank.getPower()));
 		//String msg = new String ("SHOT 0 " + focusedTank.getAngle() + " " + focusedTank.getPower());
 		// controller.send(msg);
 	}
 	public void Shoot2 () {
-		controller.AddEvent(new ShootEvent (focusedTank.getID(), 1, focusedTank.getAngle(), focusedTank.getPower()));
+		controller.send(new ShootEvent (focusedTank.getID(), 1, focusedTank.getAngle(), focusedTank.getPower()));
 		//String msg = new String ("SHOT 1 " + focusedTank.getAngle() + " " + focusedTank.getPower());
 		//controller.send(msg);
 	}

@@ -35,25 +35,30 @@ public class ServerListener extends Thread {
         }
     }
 
-    public void send (String msg)
+    public void send (GenericEvent e)
     {
-    	out.println(msg);
+    	out.println(unparse(e));
     }
-    
+
     public GenericEvent parse (String msg) {
     	Scanner scanner = new Scanner (msg);
     	scanner.useLocale(Locale.ENGLISH);
     	switch(scanner.next())
     	{
     		case "SYNC_FRAME": return new ModelTimerEvent ();
-    		case "SHOT": {
-    			int a = scanner.nextInt();
-    			double b = scanner.nextDouble();
-    			double c = scanner.nextDouble();
-    			return new ShootEvent(0, a, b, c);
-    		}
+    		case "SHOT": return new ShootEvent(scanner.nextInt(), scanner.nextInt(), scanner.nextDouble(), scanner.nextDouble());
     		default: return null;
     	}
+    }
+
+    public String unparse (GenericEvent e) {
+    	if (e instanceof ModelTimerEvent) return new String("SYNC_FRAME");
+    	if (e instanceof ShootEvent)
+    	{
+    		ShootEvent se = (ShootEvent) e;
+    		return new String("SHOT " + se.tankID + " " + se.weaponID + " " + se.angle + " " + se.power);
+    	}
+    	return new String ("UNKNOWN");
     }
 
     public void run() {

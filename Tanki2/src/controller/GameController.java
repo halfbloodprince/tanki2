@@ -53,7 +53,7 @@ public class GameController implements Runnable {
 	{
 		if (e != null) queue.add (e);
 	}
-	public void send (String msg)
+	public void send (GenericEvent msg)
 	{
 		server.send (msg);
 	}
@@ -74,10 +74,10 @@ public class GameController implements Runnable {
 		try {
 			test_tank[0] = model.spawnTank(600);
 			test_tank[0].setTeamId(0);
-			view.getCanvas().addSprite(new TankSprite(test_tank[0]));
+			view.getCanvas().addSprite(new TankSprite(test_tank[0], view));
 			test_tank[1] = model.spawnTank(300);
 			test_tank[1].setTeamId(1);
-			view.getCanvas().addSprite(new TankSprite(test_tank[1]));
+			view.getCanvas().addSprite(new TankSprite(test_tank[1], view));
 			model.startGame();
 
 			/* TODO focusing proper tank */

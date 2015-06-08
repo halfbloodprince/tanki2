@@ -12,6 +12,5 @@ public class ExplosionDoneHandler implements GenericHandler{
 	}
 
 	public void handle (GenericEvent e) {
-		view.getCanvas().finishShot();
 	}
 }

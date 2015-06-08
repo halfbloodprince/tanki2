@@ -49,6 +49,7 @@ public class GameCanvas extends Canvas {
 	private DirtMap map;
 	private AimArrow arrow;
 	RenderTask render;
+	private Color skyColor;
 	/** Timer for scheduling drawing jobs and disposals of animations */
 	Timer delayer;
 	
@@ -59,6 +60,7 @@ public class GameCanvas extends Canvas {
 	 */
 	public GameCanvas(int w, int h) throws IOException {
 		this.setSize(w, h);
+		skyColor = new Color (32, 96, 224);
 		drawables = new CopyOnWriteArrayList<Drawable>();
 		render = new RenderTask(this);
 		delayer = new Timer();
@@ -90,7 +92,7 @@ public class GameCanvas extends Canvas {
 		Graphics g = bufferImage.getGraphics();
 
 		bufferImage.flush();
-		g.setColor(Color.gray);
+		g.setColor(skyColor);
 		g.fillRect (0, 0, getWidth(), getHeight());
 		
 		if (map != null) {
@@ -181,14 +183,6 @@ public class GameCanvas extends Canvas {
 		    		return;
 		    	}
 		    }
-		}
-	}
-
-	public void finishShot() {
-		for (Drawable s : drawables) {
-			if (s instanceof TankSprite) {
-				((TankSprite)s).updateHP();
-			}
 		}
 	}
 

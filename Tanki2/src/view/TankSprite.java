@@ -3,6 +3,7 @@ package view;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.color.ICC_ProfileRGB;
@@ -16,18 +17,16 @@ import model.Tank;
 public class TankSprite extends Sprite {
 	/// the relevant tank
 	private Tank tank;
-	// private int visibleHP;
+	private Font font;
+	private GameView view;
 
-	public TankSprite (Tank t) throws IOException {
+	public TankSprite (Tank t, GameView gv) throws IOException {
 		super (Constants.TankImages[t.getTeamID()]);
 		tank = t;
-		// visibleHP = t.getHP();
+		view = gv;
+		font = new Font("SansSerif", Font.PLAIN, 10) ;
 	}
 	
-	public void updateHP() {
-		// visibleHP = tank.getHP();
-	}
-
 	public int getX() {
 		return tank.getX() - img.getWidth()/2;
 	}
@@ -39,8 +38,16 @@ public class TankSprite extends Sprite {
 	public void paint(Graphics g) {
 		if (enabled) {
 			g.drawImage(img, getX(), getY(), null);
-			g.setColor(Color.getHSBColor((float)tank.getHP()/300, 1.0f, 0.8f));
-			g.fillRect(getX() - 3, getY() - 10, tank.getHP()/3, 5);
+			if (view.getSwitchWeapons()) {
+				g.setFont(font);
+				g.setColor(Color.WHITE);
+				g.drawString("SMALL SHOT", getX()-4, getY()-10);
+			} else {
+				g.setColor(Color.BLACK);
+				g.fillRect(getX() - 4, getY() - 11, 100/3+2, 7);
+				g.setColor(Color.getHSBColor((float)tank.getHP()/300, 1.0f, 0.8f));
+				g.fillRect(getX() - 3, getY() - 10, tank.getHP()/3, 5);
+			}
 		}
 	}
 	
