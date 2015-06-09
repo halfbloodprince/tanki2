@@ -2,12 +2,15 @@ package controller;
 
 import view.DirtMap;
 import view.GameView;
+import view.GameView.ViewMode;
 import view.TankSprite;
 import model.GameModel;
 import model.Tank;
 import controller.event.GenericEvent;
 import controller.server.EventServer;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -83,8 +86,7 @@ public class GameController implements Runnable {
 	/**
 	 * Start the game
 	 */
-	private void startGame() {
-		view.enableCanvas();
+	public void startGame() {
 		DirtMap map = new DirtMap(view.getCanvas().getWidth(), view.getCanvas().getHeight());
 		model.setGrid(map);
 		view.getCanvas().setMap(map);
@@ -96,10 +98,6 @@ public class GameController implements Runnable {
 			test_tank[1] = model.spawnTank(300);
 			test_tank[1].setTeamId(1);
 			view.getCanvas().addSprite(new TankSprite(test_tank[1], view));
-			model.startGame();
-
-			/* TODO focusing proper tank */
-			//view.setFocusedTank(test_tank);
 		}
 
 		catch (Exception e) {
@@ -112,7 +110,8 @@ public class GameController implements Runnable {
 	 */
 	public void run() {
 
-		startGame();
+		//startGame();
+		view.setViewMode(ViewMode.IN_MENU);
 
 		while (true)
 		{

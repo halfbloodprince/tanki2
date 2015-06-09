@@ -22,6 +22,7 @@ public final class Main {
 		
 		catch (Exception e) {
 			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 

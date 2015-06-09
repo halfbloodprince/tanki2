@@ -8,12 +8,15 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 
+import view.DirtMap;
+import view.TankSprite;
 import controller.EventHandler;
 import controller.GameController;
 import controller.event.DmgDealtEvent;
 import controller.event.ExplosionEvent;
 import controller.event.GameOverEvent;
 import controller.event.GenericEvent;
+import controller.event.NewGameEvent;
 import controller.event.NextTurnEvent;
 import controller.event.ShootEvent;
 import controller.event.ModelTimerEvent;
@@ -21,6 +24,7 @@ import controller.event.ProjectileCreatedEvent;
 import controller.event.TankDestroyedEvent;
 import model.handler.ModelTimerHandler;
 import model.handler.ExplosionHandler;
+import model.handler.NewGameHandler;
 import model.handler.ShootHandler;
 
 /**
@@ -51,10 +55,13 @@ public class GameModel {
 	{
 		projectiles = new ArrayList <Shot> ();
 		tanks = new HashMap <Integer, Tank> ();
+		
 		handler = new EventHandler ();
 		handler.put (ShootEvent.class, new ShootHandler (this));
 		handler.put (ExplosionEvent.class, new ExplosionHandler (this));
-		handler.put (ModelTimerEvent.class, new ModelTimerHandler (this));		
+		handler.put (ModelTimerEvent.class, new ModelTimerHandler (this));	
+		handler.put (NewGameEvent.class, new NewGameHandler (this));		
+		
 		order = new ArrayList<Integer>();		
 		enableControl = true;
 		somethingExploded = false;
@@ -254,6 +261,8 @@ public class GameModel {
 	 * Initiate all game parameters
 	 */
 	public void startGame() {
+		controller.startGame();
+		
 		/* TODO What if there are no tanks in game? */
 		/* TODO Set order properly */
 		order.clear();

@@ -1,6 +1,13 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Panel;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -20,14 +27,18 @@ import controller.event.ExplosionDoneEvent;
 import controller.event.ExplosionEvent;
 import controller.event.GameOverEvent;
 import controller.event.GenericEvent;
+import controller.event.NewGameEvent;
 import controller.event.NextTurnEvent;
+import controller.event.TankCreatedEvent;
 import controller.event.TankDestroyedEvent;
 import view.handler.DmgDealtHandler;
 import view.handler.ExplosionDoneHandler;
 import view.handler.ExplosionHandler;
 import view.handler.GameOverHandler;
+import view.handler.NewGameHandler;
 import view.handler.NextTurnHandler;
 import view.handler.ShootHandler;
+import view.handler.TankCreatedHandler;
 import view.handler.TankDestroyedHandler;
 import controller.event.ShootEvent;
 import view.handler.ProjectileCreatedHandler;
@@ -39,6 +50,11 @@ import controller.event.ProjectileCreatedEvent;
  *
  */
 public final class GameView {
+	public enum ViewMode {
+		IN_MENU,
+		IN_GAME,
+	};
+	
 	private GameWindow window;
 	private GameCanvas canvas;
 	private GameTimer renderTimer;
@@ -48,8 +64,14 @@ public final class GameView {
 	private Tank focusedTank;
 	private boolean switchWeapons;
 	Map <Integer, ViewTank> tanks;
+	private Menu menu;
+	private ViewMode mode;
+	FocusListener focusRetainer;
 	
-	public void SetController (GameController c) { controller = c; }
+	public void SetController (GameController c) { 
+		controller = c; 
+		menu.setController(c);
+	}
 
 	public void handle (GenericEvent e) { handler.handle(e); }
 
@@ -64,17 +86,7 @@ public final class GameView {
 		    System.exit(0);
 		  }
 	}
-/*
-	public void AddPower (double amount) {
-		focusedTank.power += amount;
-		System.out.format("Power is now %f\n", power);
-	}
 
-	public void AddAngle (double amount) {
-		focusedTank.angle += amount;
-		System.out.format("Angle is now %f\n", angle);
-	}
-	*/
 	/**
 	 * Create new game view
 	 * @throws IOException Can be thrown when some files cannot be opened
@@ -86,21 +98,22 @@ public final class GameView {
 
 		window = new GameWindow(Constants.DefaultWindowWidth, Constants.DefaultWindowHeight);
 		// todo: consider moving the following to GameWindow constructor
-		window.setVisible(true);
 		window.addWindowListener(new BasicWindowMonitor());
 		window.addKeyListener (keyboard);
 		window.requestFocusInWindow();
-
-		// ugly hack to make sure focus is retained
-		window.addFocusListener(new FocusListener() {
+		
+		focusRetainer = new FocusListener() {
             public void focusGained(FocusEvent e) { }
             public void focusLost(FocusEvent e) { e.getComponent().requestFocus(); }
-        });
-		
+        };
+        window.addFocusListener(focusRetainer);
+        
 		canvas = new GameCanvas(window.width, window.height);
-		window.add(canvas);
-
-		renderTimer = new GameTimer(Constants.FPS);
+		window.add(canvas, BorderLayout.NORTH);
+		
+	    window.setLayout(new FlowLayout(FlowLayout.CENTER));
+		menu = new Menu(controller);
+		window.add(menu);
 
 		handler = new EventHandler ();
 		handler.put (ShootEvent.class, new ShootHandler (this));
@@ -111,7 +124,45 @@ public final class GameView {
 		handler.put (NextTurnEvent.class, new NextTurnHandler(this));
 		handler.put (TankDestroyedEvent.class, new TankDestroyedHandler(this));
 		handler.put (GameOverEvent.class, new GameOverHandler(this));
-
+		handler.put (NewGameEvent.class, new NewGameHandler(this));
+		handler.put (TankCreatedEvent.class, new TankCreatedHandler(this));
+	}
+	
+	private void setFocusRetainer(boolean b) {
+		if (b) {
+			focusRetainer = new FocusListener() {
+	            public void focusGained(FocusEvent e) { }
+	            public void focusLost(FocusEvent e) { e.getComponent().requestFocus(); }
+	        };
+			window.addFocusListener(focusRetainer);
+		} else {
+			window.removeFocusListener(focusRetainer);
+		}
+	}
+	
+	public void setViewMode(ViewMode mode) {
+		this.mode = mode;
+		switch(mode) {
+		case IN_MENU:
+			canvas.setVisible(false);
+			canvas.setEnabled(false);
+			disableCanvas();
+			menu.setVisible(true);
+			menu.setEnabled(true);
+			window.setSize(200,200);
+			setFocusRetainer(false);
+			break;
+		case IN_GAME:
+			enableCanvas();
+			canvas.setEnabled(true);
+			canvas.setVisible(true);
+			menu.setVisible(false);
+			menu.setEnabled(false);
+			window.setSize(Constants.DefaultWindowWidth, Constants.DefaultWindowHeight);
+			window.requestFocus();
+			setFocusRetainer(true);
+			break;
+		}
 	}
 
 	/**
@@ -135,7 +186,16 @@ public final class GameView {
 	 * Start rendering canvas
 	 */
 	public void enableCanvas() {
+		renderTimer = new GameTimer(Constants.FPS);
 		renderTimer.scheduleRenderTask(canvas.getRenderTask());
+	}
+	
+	/**
+	 * Stop rendering canvas
+	 */
+	public void disableCanvas() {
+		if (renderTimer != null)
+			renderTimer.cancel();
 	}
 	
 	public void addTank (Tank tank) {
@@ -155,15 +215,27 @@ public final class GameView {
 		canvas.setFocusedTank(tank);
 	}
 	
+	/**
+	 * Get a tank which is currently marked as focused
+	 * @return a tank
+	 */
 	public Tank getFocusedTank() {
 		return focusedTank;
 	}
 
+	/**
+	 * Show an explosion
+	 * @param explosion
+	 */
 	public void scheduleExplosion(Explosion explosion) {
 		getCanvas().addAnimation(explosion);
 		controller.AddDelayedEvent(new ExplosionDoneEvent(), explosion.duration);
 	}
 
+	/**
+	 * Show that game has ended
+	 * @param winner
+	 */
 	public void gameOver(int winner) {
 		DrawableString s = new DrawableString("Winner winner chicken dinner!");
 		s.setPosition(canvas.getWidth()/2 - 100, canvas.getHeight()/2);
